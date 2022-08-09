@@ -39,14 +39,14 @@ public class Customer {
                 Main.validCustomerNum = inputCustomerNum;
                 break;
             }
-            else if(!correctCustomerNum) {
+            else {
                 if (i == 1){
                     System.out.println("Diese Kundennummer ist nicht bekannt. Versuchen Sie es erneut.\nSie haben noch "+i+" Versuch.");
                 }
                 else if (i > 1){
                     System.out.println("Diese Kundennummer ist nicht bekannt. Versuchen Sie es erneut.\nSie haben noch "+i+" Versuche.");
                 }
-                else if (i == 0){
+                else {
                     System.out.println("Diese Kundennummer ist nicht bekannt. \nFalls Sie Ihre Kundennummer vergessen haben, wenden Sie sich an das Bankpersonal.");
                 }
             }
@@ -58,9 +58,9 @@ public class Customer {
         boolean isCustomer = false;
         try {
             int inputInt = Integer.parseInt(input);
-            ArrayList <ArrayList> customerData = Database.readCSV(Main.filepath);
-            for (int i = 0; i < customerData.size(); i++) {
-                if (inputInt == Integer.parseInt((String) customerData.get(i).get(3))) {
+            ArrayList <ArrayList> customerData = Database.readCSV(Database.filepath);
+            for (ArrayList customerDatum : customerData) {
+                if (inputInt == Integer.parseInt((String) customerDatum.get(3))) {
                     isCustomer = true;
                     break;
                 }

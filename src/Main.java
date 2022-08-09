@@ -1,13 +1,13 @@
 //TO DO
-//+ datenbank? in datenbank speichern
 //+ JUnit tests
-//+ refactor Database classe, validatePin etc in Account
 //+ add package
+//+ durch Fehlermeldungen gehen
+//+ farben
 
 import java.util.Scanner;
 
 public class Main {
-    static String filepath = "R:\\Java\\Bankautomat\\customer_database.csv";
+
     static String validCustomerNum = "";
 
     public static void main(String[] args) {
@@ -54,13 +54,13 @@ public class Main {
                     break;
                 case "4":
                     System.out.println("Auf Wiedersehen!");
+                    Database.writeNewBalance(account);
                     quit = true;
                     break;
                 default:
                     System.out.println("Inkorrekte Eingabe! Versuchen Sie es erneut.\n");
             }
         }
-
     }
 
     private static void stopProgram(boolean invalidInput){

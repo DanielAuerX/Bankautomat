@@ -1,14 +1,13 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class Database {
 
+    static String filepath = "R:\\Java\\Bankautomat\\customer_database.csv";
+
     public static ArrayList readCSV(String filepath){
         BufferedReader reader = null;
-        String line = "";
+        String line;
         ArrayList<ArrayList<String>> customer = new ArrayList<>();
 
         try {
@@ -43,7 +42,7 @@ public class Database {
     }
 
     public static Customer instantiateCustomer() {
-        ArrayList<ArrayList> database = readCSV(Main.filepath);
+        ArrayList<ArrayList> database = readCSV(filepath);
         int position = 0;
         for (int i = 0; i < database.size(); i++) {
             if (Main.validCustomerNum.equals(String.valueOf(database.get(i).get(3)))) {
@@ -60,7 +59,7 @@ public class Database {
     }
 
     public static Account instantiateAccount() {
-        ArrayList<ArrayList> database = readCSV(Main.filepath);
+        ArrayList<ArrayList> database = readCSV(filepath);
         int position = 0;
         for (int i = 0; i < database.size(); i++) {
             if (Main.validCustomerNum.equals(String.valueOf(database.get(i).get(3)))) {
@@ -73,6 +72,51 @@ public class Database {
         double balance = Double.parseDouble((String)database.get(position).get(6));
         Account account = new Account(accountNum,pinNum,balance);
         return account;
+    }
+
+    public static void writeNewBalance(Account account){
+        ArrayList<ArrayList> database = readCSV(filepath);
+        for (int i = 0; i < database.size(); i++){
+            if (account.accountNum == Integer.parseInt((String) database.get(i).get(4))){
+                if (account.balance == Double.parseDouble((String)database.get(i).get(6))){
+                    break;
+                }
+                else {
+                    ArrayList customer = database.get(i);
+                    customer.set(6, account.balance);
+                    StringBuilder databaseText = new StringBuilder();
+                    int counter1 = 1;
+                    for (ArrayList array : database) {
+                        StringBuilder arrayText = new StringBuilder();
+                        int counter2 = 0;
+                        for (Object datapoint : array) {
+                            if (counter2 < 6){
+                                arrayText.append(datapoint).append(";");
+                            }
+                            else {
+                                arrayText.append(datapoint);
+                            }
+                            counter2++;
+                        }
+                        if (counter1 == database.size()){
+                            databaseText.append(arrayText);
+                        }
+                        else {
+                            databaseText.append(arrayText).append("\n");
+                        }
+                        counter1++;
+                    }
+                    try {
+                        BufferedWriter writer = new BufferedWriter(new FileWriter(filepath));
+                        writer.write(databaseText.toString());
+                        writer.close();
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
 }

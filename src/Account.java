@@ -66,14 +66,14 @@ public class Account {
                 isValid = true;
                 break;
             }
-            else if(inputPinInt!=pin) {
+            else {
                 if (i > 1){
                     System.out.println("Diese Pin ist inkorrekt. Versuchen Sie es erneut.\nSie haben noch "+i+" Versuche.");
                 }
                 else if (i == 1){
                     System.out.println("Diese Pin ist inkorrekt. Versuchen Sie es erneut.\nSie haben noch "+i+" Versuch.");
                 }
-                else if (i == 0){
+                else {
                     System.out.println("Diese Pin ist inkorrekt. Ihr Konto ist vorübergehend gesperrt! \nBitte wenden Sie sich an das Bankpersonal.");
                 }
             }
