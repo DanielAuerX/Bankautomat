@@ -1,21 +1,41 @@
 //TO DO
-//+ datenbank? wie werden die objekte initizialisiert?
+//+ datenbank? in datenbank speichern
 //+ JUnit tests
-//+ check static
+//+ refactor Database classe, validatePin etc in Account
 //+ add package
 
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+    static String filepath = "R:\\Java\\Bankautomat\\customer_database.csv";
+    static String validCustomerNum = "";
+
     public static void main(String[] args) {
 
-        Customer firstCustomer = new Customer("Peter", "Pahn", 0, 1001); // nur zum testen
-        Account firstAccount = new Account(10001, 110, 100.00);
-        int[] customerNums = {1001, 1002, 1003, 1004};
-        int correctPin = 110;
         boolean quit = false;
-        String menuText = "Sie haben Zugriff auf Ihr Konto mit der Nummer "+firstCustomer.customerNum+
+
+        System.out.println("B A N K O M A T EOS-Bank Standort: Hamburg");
+        Scanner scanner = new Scanner(System.in);
+
+        boolean isValidCustomer = validateCustomerNum(scanner);
+        stopProgram(isValidCustomer);
+
+        Customer customer = instantiateCustomer();
+        Account account = instantiateAccount();
+
+        String name = customer.greeting();
+        System.out.println("Guten Tag "+name+"!");
+
+        boolean isValidPin = validatePin(scanner,account.pinNum);
+        stopProgram(isValidPin);
+
+        String menuText = "Sie haben Zugriff auf Ihr Konto mit der Nummer "+customer.customerNum+
                 "\nWählen Sie\n" +
                 "1 – Kontostand abfragen\n" +
                 "2 – Einzahlen\n" +
@@ -23,32 +43,20 @@ public class Main {
                 "4 – System verlassen\n\n" +
                 "Eingabe: ";
 
-        System.out.println("B A N K O M A T EOS-Bank Standort: Hamburg");
-        Scanner scanner = new Scanner(System.in);
-
-        boolean isValidCustomer = validateCustomer(scanner,customerNums);
-        stopProgram(isValidCustomer);
-
-        String name = firstCustomer.greeting();
-        System.out.println("Guten Tag "+name+"!");
-
-        boolean isValidPin = validatePin(scanner,correctPin);
-        stopProgram(isValidPin);
-
         while (!quit){
             System.out.print(menuText);
             String input = scanner.nextLine();
             switch (input){
                 case "1":
-                    System.out.println(firstAccount.getBalance());
+                    System.out.println(account.getBalance());
                     break;
                 case "2":
-                    firstAccount.deposit(scanner);
-                    System.out.println(firstAccount.getBalance());
+                    account.deposit(scanner);
+                    System.out.println(account.getBalance());
                     break;
                 case "3":
-                    firstAccount.withdraw(scanner);
-                    System.out.println(firstAccount.getBalance());
+                    account.withdraw(scanner);
+                    System.out.println(account.getBalance());
                     break;
                 case "4":
                     System.out.println("Auf Wiedersehen!");
@@ -61,12 +69,13 @@ public class Main {
 
     }
 
-    private static boolean isValidCustomer(String input, int[] customerNums){  //geht später durch datenbank (findCustomer?)
+    private static boolean findCustomer(String input){
         boolean isCustomer = false;
         try {
             int inputInt = Integer.parseInt(input);
-            for (int customerNum:customerNums){
-                if (customerNum==inputInt){
+            ArrayList <ArrayList> customerData = readCSV(filepath);
+            for (int i = 0; i < customerData.size(); i++) {
+                if (inputInt == Integer.parseInt((String) customerData.get(i).get(3))) {
                     isCustomer = true;
                     break;
                 }
@@ -75,22 +84,21 @@ public class Main {
         catch (NumberFormatException e){
             System.out.println("Bitte ausschließlich Zahlen eingeben.");
         }
-        finally {
-            return isCustomer;
-        }
+        return isCustomer;
 
     }
 
-    private static boolean validateCustomer(Scanner scanner, int[] customerNums){
-        boolean isValid = false;
+    private static boolean validateCustomerNum(Scanner scanner){
+        boolean isValidCustomer = false;
 
         for (int i = 3; i > -1; i--){
             System.out.print("Bitte Kundennummer eingeben: ");
             String inputCustomerNum = scanner.nextLine();
 
-            boolean correctCustomerNum = isValidCustomer(inputCustomerNum, customerNums);
+            boolean correctCustomerNum = findCustomer(inputCustomerNum);
             if (correctCustomerNum){
-                isValid = true;
+                isValidCustomer = true;
+                validCustomerNum = inputCustomerNum;
                 break;
             }
             else if(!correctCustomerNum) {
@@ -105,7 +113,7 @@ public class Main {
                 }
             }
         }
-        return isValid;
+        return isValidCustomer;
     }
 
     private static boolean validatePin(Scanner scanner, int pin){
@@ -146,8 +154,78 @@ public class Main {
         }
     }
 
+    private static ArrayList readCSV(String filepath){
+        BufferedReader reader = null;
+        String line = "";
+        ArrayList<ArrayList<String>> customer = new ArrayList<>();
+
+        try {
+            reader = new BufferedReader(new FileReader(filepath));
+            while ((line = reader.readLine()) != null){
+                String[] row = line.split("\n");
+                for (String index : row){
+                    String[] customerPartsString = index.split(";");
+                    ArrayList<String> customerPartsArrayList = new ArrayList<>();
+                    for (String part : customerPartsString){
+                        customerPartsArrayList.add(part);
+                    }
+                    customer.add(customerPartsArrayList);
+                }
+            }
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                reader.close();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return customer;
+    }
+
+    private static Customer instantiateCustomer() {
+        ArrayList<ArrayList> database = readCSV(filepath);
+        int position = 0;
+        for (int i = 0; i < database.size(); i++) {
+            if (validCustomerNum.equals(String.valueOf(database.get(i).get(3)))) {
+                position = i;
+                break;
+            }
+        }
+        String firstName = String.valueOf(database.get(position).get(0));
+        String secondName = String.valueOf(database.get(position).get(1));
+        int gender = Integer.parseInt(String.valueOf(database.get(position).get(2)));
+        int customerNum = Integer.parseInt(validCustomerNum);
+        Customer customer = new Customer(firstName, secondName, gender, customerNum);
+        return customer;
+    }
+
+    private static Account instantiateAccount() {
+        ArrayList<ArrayList> database = readCSV(filepath);
+        int position = 0;
+        for (int i = 0; i < database.size(); i++) {
+            if (validCustomerNum.equals(String.valueOf(database.get(i).get(3)))) {
+                position = i;
+                break;
+            }
+        }
+        int accountNum = Integer.parseInt((String) database.get(position).get(4));
+        int pinNum = Integer.parseInt((String)database.get(position).get(5));
+        double balance = Double.parseDouble((String)database.get(position).get(6));
+        Account account = new Account(accountNum,pinNum,balance);
+        return account;
+    }
+
 
 
 
 
 }
+
