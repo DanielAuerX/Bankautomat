@@ -14,7 +14,15 @@ public class Account {
 
     public String getBalance(){
         String balanceStr = String.format("%.2f", balance);
-        return "Ihr Kontostand beträgt: "+balanceStr+"€\n";
+        String formattedText;
+        if (balance < 0){
+            formattedText = "\n"+Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+Main.BOLD+Main.RED_BACKGROUND+balanceStr+"€\n"+Main.RESET;
+        }
+        else {
+            formattedText = "\n"+Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+Main.BOLD+balanceStr+"€\n"+Main.RESET;
+        }
+
+        return formattedText;
     }
 
     public void deposit(Scanner scanner){

@@ -4,6 +4,14 @@
 //+ durch Fehlermeldungen gehen
 //+ farben
 
+/*
+    void getBalance() {
+        Account account = new Account(1001, 110, 100.00);
+        assertEquals("Ihr Kontostand beträgt: 100,00€\n", account.getBalance());
+
+    }
+ */
+
 import java.util.Scanner;
 
 public class Main {
@@ -29,12 +37,12 @@ public class Main {
         boolean isValidPin = Account.validatePin(scanner,account.pinNum);
         stopProgram(isValidPin);
 
-        String menuText = "Sie haben Zugriff auf Ihr Konto mit der Nummer "+customer.customerNum+
+        String menuText = "Sie haben Zugriff auf Ihr Konto mit der"+BOLD+"Nummer "+customer.customerNum+RESET+
                 "\nWählen Sie\n" +
-                "1 – Kontostand abfragen\n" +
-                "2 – Einzahlen\n" +
-                "3 – Abheben\n" +
-                "4 – System verlassen\n\n" +
+                "1 - Kontostand abfragen\n" +
+                "2 - Einzahlen\n" +
+                "3 - Abheben\n" +
+                "4 - System verlassen\n\n" +
                 "Eingabe: ";
 
         while (!quit){
@@ -68,6 +76,14 @@ public class Main {
             System.exit(0);
         }
     }
+
+    public static final String RESET = "\033[0m";
+
+    public static final String RED_BACKGROUND = "\033[41m";
+
+    public static final String TEXT_BACKGROUND = "\033[0;7m";
+
+    public static final String BOLD = "\u001B[1m";
 
 }
 
