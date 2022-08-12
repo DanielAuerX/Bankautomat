@@ -5,30 +5,29 @@ import java.util.Scanner;
 
 public class AccountTest extends TestCase {
 
-    public void testGetBalanceShouldReturnHundred() {
+    public void testGetBalance_ShouldReturnHundred() {
             Account account = new Account(1001, 110, 100.00);
             assertEquals("\n"+Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+Main.BOLD+"100,00€\n"+Main.RESET, account.getBalance());
     }
 
-    public void testGetBalanceShouldReturnMinusOneInRed() {
+    public void testGetBalance_ShouldReturnMinusOneInRed() {
         Account account = new Account(1001, 110, -1);
         assertEquals("\n"+Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+Main.BOLD+Main.RED_BACKGROUND+"-1,00€\n"+Main.RESET, account.getBalance());
     }
 
-    public void testGetBalanceShouldReturnZero() {
+    public void testGetBalance_ShouldReturnZero() {
         Account account = new Account(1001, 110, 0);
         assertEquals("\n"+Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+Main.BOLD+"0,00€\n"+Main.RESET, account.getBalance());
     }
 
-    public void testGetBalanceShouldReturnTwoKommaZeroZero() {
+    public void testGetBalance_ShouldReturnTwoKommaZeroZero() {
         Account account = new Account(1001, 110, 1.99999);
         assertEquals("\n"+Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+Main.BOLD+"2,00€\n"+Main.RESET, account.getBalance());
     }
 
-    public void testDepositShouldReturnNewBalanceHundredFifty() {
+    public void testDeposit_ShouldReturnNewBalanceHundredFifty() {
         Account testAccount = new Account(1, 1, 50.0);
         String userInput = "100";
-
         ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(inputStream);
 
@@ -37,10 +36,9 @@ public class AccountTest extends TestCase {
         assertEquals(String.valueOf(150.0), String.valueOf(testAccount.balance));
     }
 
-    public void testDepositShouldReturnNewBalanceMinusOne() {
+    public void testDeposit_ShouldReturnNewBalanceMinusOne() {
         Account testAccount = new Account(1, 1, -2.0);
         String userInput = "1";
-
         ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(inputStream);
 
@@ -49,13 +47,11 @@ public class AccountTest extends TestCase {
         assertEquals(String.valueOf(-1.0), String.valueOf(testAccount.balance));
     }
 
-    public void testDepositShouldReturnNoLettersAllowed() {
+    public void testDeposit_ShouldReturnNoLettersAllowed() {
         Account testAccount = new Account(1, 1, 10.0);
         String userInput = "hallo";
-
         ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(inputStream);
-
         String expectedCatch = "Bitte einen Betrag aus Zahlen eingeben.\nBuchstaben sind nicht gestattet!";
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(outputStream);
@@ -70,10 +66,9 @@ public class AccountTest extends TestCase {
     }
 
 
-    public void testWithdrawShouldReturnOne() {
+    public void testWithdraw_ShouldReturnOne() {
         Account testAccount = new Account(1, 1, 100.0);
         String userInput = "99";
-
         ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(inputStream);
 
@@ -82,10 +77,9 @@ public class AccountTest extends TestCase {
         assertEquals(String.valueOf(1.0), String.valueOf(testAccount.balance));
     }
 
-    public void testWithdrawShouldReturnMinusOne() {
+    public void testWithdraw_ShouldReturnMinusOne() {
         Account testAccount = new Account(1, 1, 99.0);
         String userInput = "100";
-
         ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(inputStream);
 
@@ -94,10 +88,9 @@ public class AccountTest extends TestCase {
         assertEquals(String.valueOf(-1.0), String.valueOf(testAccount.balance));
     }
 
-    public void testWithdrawShouldReturnZero() {
+    public void testWithdraw_ShouldReturnZero() {
         Account testAccount = new Account(1, 1, 1.0);
         String userInput = "1";
-
         ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(inputStream);
 
@@ -106,10 +99,9 @@ public class AccountTest extends TestCase {
         assertEquals(String.valueOf(0.0), String.valueOf(testAccount.balance));
     }
 
-    public void testWithdrawShouldReplaceKomma() {
+    public void testWithdraw_ShouldReplaceKomma() {
         Account testAccount = new Account(1, 1, 3.0);
         String userInput = "1,50";
-
         ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(inputStream);
 
@@ -118,13 +110,11 @@ public class AccountTest extends TestCase {
         assertEquals(String.valueOf(1.50), String.valueOf(testAccount.balance));
     }
 
-    public void testWithdrawShouldReturnNoLettersAllowed() {
+    public void testWithdraw_ShouldReturnNoLettersAllowed() {
         Account testAccount = new Account(1, 1, 100.0);
         String userInput = "moin";
-
         ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(inputStream);
-
         String expectedCatch = "Bitte einen Betrag aus Zahlen eingeben.\nBuchstaben sind nicht gestattet!";
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(outputStream);
@@ -138,7 +128,7 @@ public class AccountTest extends TestCase {
         assertEquals(expectedCatch, actual);
     }
 
-    public void testValidatePinCorrectPinShouldReturnTrue() {
+    public void testValidatePin_CorrectPinShouldReturnTrue() {
         Account testAccount = new Account(1, 999, 1.0);
         String userInput = "999";
 
@@ -148,14 +138,47 @@ public class AccountTest extends TestCase {
         assertTrue(testAccount.validatePin(new Scanner(System.in)));
     }
 
-    /*public void testValidateShouldReturnNoLettersAllowed() {
+    public void testValidatePin_CorrectPinShouldReturnTrueAfterSecondTry() {
         Account testAccount = new Account(1, 999, 1.0);
-        String userInput = "abc";
+        String userInput = "111"+"\n999";
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(inputStream);
+
+        boolean actual = testAccount.validatePin(new Scanner(System.in));
+
+        assertTrue(actual);
+    }
+
+    public void testValidatePin_CorrectPinShouldReturnTrueAfterThirdTry() {
+        Account testAccount = new Account(1, 999, 1.0);
+        String userInput = "111"+"\n112"+"\n999";
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(inputStream);
+
+        boolean actual = testAccount.validatePin(new Scanner(System.in));
+
+        assertTrue(actual);
+    }
+
+    public void testValidatePin_CorrectPinShouldReturnFalseAfterThirdTry() {
+        Account testAccount = new Account(1, 999, 1.0);
+        String userInput = "111"+"\n112"+"\n123";
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(inputStream);
+
+        boolean actual = testAccount.validatePin(new Scanner(System.in));
+
+        assertFalse(actual);
+    }
+
+    public void testValidatePin_ShouldReturnNoLettersAllowed() {
+        Account testAccount = new Account(1, 999, 1.0);
+        String userInput = "abc"+"\n999";
 
         ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(inputStream);
 
-        String expectedCatch = "Bitte ausschließlich Zahlen eingeben.";
+        String expectedCatch = "Bitte Geheimzahl eingeben: Bitte ausschließlich Zahlen eingeben.";
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(outputStream);
         System.setOut(printStream);
@@ -163,20 +186,8 @@ public class AccountTest extends TestCase {
         testAccount.validatePin(new Scanner(System.in));
 
         String[] lines = outputStream.toString().split(System.lineSeparator());
-        String actual = lines[lines.length-1];
+        String actual = lines[lines.length-3];
 
         assertEquals(expectedCatch, actual);
-    }*/
-
-   /* public void testValidatePinWrongPinOnce() {
-        Account testAccount = new Account(1, 987, 1.0);
-        String userInput = String.format("111%123%987",
-                System.lineSeparator(),
-                System.lineSeparator());
-
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
-        System.setIn(inputStream);
-
-        assertTrue(testAccount.validatePin(new Scanner(System.in)));
-    }*/
+    }
 }
