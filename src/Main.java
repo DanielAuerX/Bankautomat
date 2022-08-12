@@ -34,10 +34,10 @@ public class Main {
         String name = customer.greeting();
         System.out.println("Guten Tag "+name+"!");
 
-        boolean isValidPin = Account.validatePin(scanner,account.pinNum);
+        boolean isValidPin = account.validatePin(scanner);
         stopProgram(isValidPin);
 
-        String menuText = "Sie haben Zugriff auf Ihr Konto mit der"+BOLD+"Nummer "+customer.customerNum+RESET+
+        String menuText = BOLD+"Sie haben Zugriff auf Ihr Konto mit der Nummer "+customer.customerNum+RESET+
                 "\nWählen Sie\n" +
                 "1 - Kontostand abfragen\n" +
                 "2 - Einzahlen\n" +

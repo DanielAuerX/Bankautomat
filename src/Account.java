@@ -34,7 +34,7 @@ public class Account {
             balance += amount;
         }
         catch (NumberFormatException e){
-            System.out.println("Bitte einen Betrag aus Zahlen eingeben.\nBuchstaben sind nicht gestattet!\n");
+            System.out.println("Bitte einen Betrag aus Zahlen eingeben.\nBuchstaben sind nicht gestattet!");
         }
         catch (Exception e){
             System.out.println("Es ist ein Problem aufgetreten. Versuchen Sie es erneut.");
@@ -50,14 +50,14 @@ public class Account {
             balance -= amount;
         }
         catch (NumberFormatException e){
-            System.out.println("Bitte einen Betrag aus Zahlen eingeben.\nBuchstaben sind nicht gestattet!\n");
+            System.out.println("Bitte einen Betrag aus Zahlen eingeben.\nBuchstaben sind nicht gestattet!");
         }
         catch (Exception e){
             System.out.println("Es ist ein Problem aufgetreten. Versuchen Sie es erneut.");
         }
     }
 
-    public static boolean validatePin(Scanner scanner, int pin){
+    public boolean validatePin(Scanner scanner){
         boolean isValid = false;
         for (int i = 2; i > -1; i--){
             int inputPinInt = 0;
@@ -70,7 +70,7 @@ public class Account {
                 System.out.println("Bitte ausschließlich Zahlen eingeben.");
             }
 
-            if (inputPinInt==pin){
+            if (inputPinInt==pinNum){
                 isValid = true;
                 break;
             }
