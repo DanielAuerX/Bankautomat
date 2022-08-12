@@ -1,9 +1,11 @@
+package code;
+
 import java.io.*;
 import java.util.ArrayList;
 
 public class Database {
 
-    static String filepath = "R:\\Java\\Bankautomat\\customer_database.csv";
+    public static String filepath = "R:\\Java\\Bankautomat\\customer_database.csv";
 
     public static ArrayList readCSV(String filepath){
         BufferedReader reader = null;

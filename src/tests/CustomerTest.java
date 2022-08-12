@@ -1,3 +1,6 @@
+package tests;
+
+import code.Customer;
 import junit.framework.TestCase;
 
 import java.io.ByteArrayInputStream;

@@ -1,5 +1,7 @@
+package code;
+
 //TO DO
-//+ add package
+
 //+ durch Fehlermeldungen gehen
 
 
@@ -7,7 +9,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    static String validCustomerNum = "";
+    public static String validCustomerNum = "";
 
     public static void main(String[] args) {
 

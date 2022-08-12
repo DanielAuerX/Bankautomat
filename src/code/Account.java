@@ -1,3 +1,5 @@
+package code;
+
 import java.util.Scanner;
 
 public class Account {
@@ -12,14 +14,30 @@ public class Account {
         this.balance = balance;
     }
 
+    public double getBareBalance() {
+        return balance;
+    }
+
+    public int getAccountNum() {
+        return accountNum;
+    }
+
+    public int getPinNum() {
+        return pinNum;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
     public String getBalance(){
         String balanceStr = String.format("%.2f", balance);
         String formattedText;
         if (balance < 0){
-            formattedText = "\n"+Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+Main.BOLD+Main.RED_BACKGROUND+balanceStr+"€\n"+Main.RESET;
+            formattedText = "\n"+ Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+ Main.BOLD+ Main.RED_BACKGROUND+balanceStr+"€\n"+ Main.RESET;
         }
         else {
-            formattedText = "\n"+Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+Main.BOLD+balanceStr+"€\n"+Main.RESET;
+            formattedText = "\n"+ Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+ Main.BOLD+balanceStr+"€\n"+ Main.RESET;
         }
 
         return formattedText;

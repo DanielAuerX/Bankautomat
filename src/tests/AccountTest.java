@@ -1,3 +1,6 @@
+package tests;
+
+import code.*;
 import junit.framework.TestCase;
 
 import java.io.*;
@@ -7,22 +10,22 @@ public class AccountTest extends TestCase {
 
     public void testGetBalance_ShouldReturnHundred() {
             Account account = new Account(1001, 110, 100.00);
-            assertEquals("\n"+Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+Main.BOLD+"100,00€\n"+Main.RESET, account.getBalance());
+            assertEquals("\n"+ Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+ Main.BOLD+"100,00€\n"+ Main.RESET, account.getBalance());
     }
 
     public void testGetBalance_ShouldReturnMinusOneInRed() {
         Account account = new Account(1001, 110, -1);
-        assertEquals("\n"+Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+Main.BOLD+Main.RED_BACKGROUND+"-1,00€\n"+Main.RESET, account.getBalance());
+        assertEquals("\n"+ Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+ Main.BOLD+ Main.RED_BACKGROUND+"-1,00€\n"+ Main.RESET, account.getBalance());
     }
 
     public void testGetBalance_ShouldReturnZero() {
         Account account = new Account(1001, 110, 0);
-        assertEquals("\n"+Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+Main.BOLD+"0,00€\n"+Main.RESET, account.getBalance());
+        assertEquals("\n"+ Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+ Main.BOLD+"0,00€\n"+ Main.RESET, account.getBalance());
     }
 
     public void testGetBalance_ShouldReturnTwoKommaZeroZero() {
         Account account = new Account(1001, 110, 1.99999);
-        assertEquals("\n"+Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+Main.BOLD+"2,00€\n"+Main.RESET, account.getBalance());
+        assertEquals("\n"+ Main.TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+ Main.BOLD+"2,00€\n"+ Main.RESET, account.getBalance());
     }
 
     public void testDeposit_ShouldReturnNewBalanceHundredFifty() {
@@ -33,7 +36,7 @@ public class AccountTest extends TestCase {
 
         testAccount.deposit(new Scanner(System.in));
 
-        assertEquals(String.valueOf(150.0), String.valueOf(testAccount.balance));
+        assertEquals(String.valueOf(150.0), String.valueOf(testAccount.getBalance()));
     }
 
     public void testDeposit_ShouldReturnNewBalanceMinusOne() {
@@ -44,7 +47,7 @@ public class AccountTest extends TestCase {
 
         testAccount.deposit(new Scanner(System.in));
 
-        assertEquals(String.valueOf(-1.0), String.valueOf(testAccount.balance));
+        assertEquals(String.valueOf(-1.0), String.valueOf(testAccount.getBareBalance()));
     }
 
     public void testDeposit_ShouldReturnNoLettersAllowed() {
@@ -74,7 +77,7 @@ public class AccountTest extends TestCase {
 
         testAccount.withdraw(new Scanner(System.in));
 
-        assertEquals(String.valueOf(1.0), String.valueOf(testAccount.balance));
+        assertEquals(String.valueOf(1.0), String.valueOf(testAccount.getBareBalance()));
     }
 
     public void testWithdraw_ShouldReturnMinusOne() {
@@ -85,7 +88,7 @@ public class AccountTest extends TestCase {
 
         testAccount.withdraw(new Scanner(System.in));
 
-        assertEquals(String.valueOf(-1.0), String.valueOf(testAccount.balance));
+        assertEquals(String.valueOf(-1.0), String.valueOf(testAccount.getBareBalance()));
     }
 
     public void testWithdraw_ShouldReturnZero() {
@@ -96,7 +99,7 @@ public class AccountTest extends TestCase {
 
         testAccount.withdraw(new Scanner(System.in));
 
-        assertEquals(String.valueOf(0.0), String.valueOf(testAccount.balance));
+        assertEquals(String.valueOf(0.0), String.valueOf(testAccount.getBareBalance()));
     }
 
     public void testWithdraw_ShouldReplaceKomma() {
@@ -107,7 +110,7 @@ public class AccountTest extends TestCase {
 
         testAccount.withdraw(new Scanner(System.in));
 
-        assertEquals(String.valueOf(1.50), String.valueOf(testAccount.balance));
+        assertEquals(String.valueOf(1.50), String.valueOf(testAccount.getBareBalance()));
     }
 
     public void testWithdraw_ShouldReturnNoLettersAllowed() {

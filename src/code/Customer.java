@@ -1,3 +1,7 @@
+package code;
+
+import code.Main;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -12,6 +16,22 @@ public class Customer {
         this.secondName = secondName;
         this.gender = gender;
         this.customerNum = customerNum;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public int getCustomerNum() {
+        return customerNum;
     }
 
     public String greeting(){
