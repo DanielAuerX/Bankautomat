@@ -12,17 +12,17 @@ public class DatabaseTest extends TestCase {
     }
 
     public void testReadCSV_ShouldBeMustermann() {
-        ArrayList<ArrayList> database = Database.readCSV(Database.filepath);
+        ArrayList<ArrayList<String>> database = Database.readCSV(Database.filepath);
         assertEquals("Mustermann", database.get(0).get(1));
     }
 
     public void testReadCSV_ShouldBeMusterfrau() {
-        ArrayList<ArrayList> database = Database.readCSV(Database.filepath);
+        ArrayList<ArrayList<String>> database = Database.readCSV(Database.filepath);
         assertEquals("Musterfrau", database.get(1).get(1));
     }
 
     public void testReadCSV_ShouldBe11111() {
-        ArrayList<ArrayList> database = Database.readCSV(Database.filepath);
+        ArrayList<ArrayList<String>> database = Database.readCSV(Database.filepath);
         assertEquals("11111", database.get(0).get(4));
     }
 
@@ -99,7 +99,7 @@ public class DatabaseTest extends TestCase {
 
         Database.writeNewBalance(testAccount);
 
-        ArrayList<ArrayList> database = Database.readCSV(Database.filepath);
+        ArrayList<ArrayList<String>> database = Database.readCSV(Database.filepath);
         assertEquals(String.valueOf(oldBalance+1), String.valueOf(database.get(0).get(6)));
 
         testAccount.setBalance(oldBalance);
@@ -114,7 +114,7 @@ public class DatabaseTest extends TestCase {
 
         Database.writeNewBalance(testAccount);
 
-        ArrayList<ArrayList> database = Database.readCSV(Database.filepath);
+        ArrayList<ArrayList<String>> database = Database.readCSV(Database.filepath);
         assertEquals(String.valueOf(oldBalance+1), String.valueOf(database.get(1).get(6)));
 
         testAccount.setBalance(oldBalance);
@@ -128,7 +128,7 @@ public class DatabaseTest extends TestCase {
         testAccount.setBalance(-1);
 
         Database.writeNewBalance(testAccount);
-        ArrayList<ArrayList> database = Database.readCSV(Database.filepath);
+        ArrayList<ArrayList<String>> database = Database.readCSV(Database.filepath);
 
         assertEquals(String.valueOf(-1.0), String.valueOf(database.get(0).get(6)));
 

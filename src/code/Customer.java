@@ -1,7 +1,5 @@
 package code;
 
-import code.Main;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -28,10 +26,6 @@ public class Customer {
 
     public int getGender() {
         return gender;
-    }
-
-    public int getCustomerNum() {
-        return customerNum;
     }
 
     public String greeting(){
@@ -78,9 +72,9 @@ public class Customer {
         boolean isCustomer = false;
         try {
             int inputInt = Integer.parseInt(input);
-            ArrayList <ArrayList> customerData = Database.readCSV(Database.filepath);
-            for (ArrayList customerDatum : customerData) {
-                if (inputInt == Integer.parseInt((String) customerDatum.get(3))) {
+            ArrayList <ArrayList<String>> customerData = Database.readCSV(Database.filepath);
+            for (ArrayList<String> customerDatum : customerData) {
+                if (inputInt == Integer.parseInt(customerDatum.get(3))) {
                     isCustomer = true;
                     break;
                 }

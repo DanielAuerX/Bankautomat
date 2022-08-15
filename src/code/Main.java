@@ -1,10 +1,5 @@
 package code;
 
-//TO DO
-
-//+ durch Fehlermeldungen gehen
-
-
 import java.util.Scanner;
 
 public class Main {

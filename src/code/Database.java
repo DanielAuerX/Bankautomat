@@ -2,12 +2,13 @@ package code;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Database {
 
     public static String filepath = "R:\\Java\\Bankautomat\\customer_database.csv";
 
-    public static ArrayList readCSV(String filepath){
+    public static ArrayList<ArrayList<String>> readCSV(String filepath){
         BufferedReader reader = null;
         String line;
         ArrayList<ArrayList<String>> customer = new ArrayList<>();
@@ -19,21 +20,15 @@ public class Database {
                 for (String index : row){
                     String[] customerPartsString = index.split(";");
                     ArrayList<String> customerPartsArrayList = new ArrayList<>();
-                    for (String part : customerPartsString){
-                        customerPartsArrayList.add(part);
-                    }
+                    Collections.addAll(customerPartsArrayList, customerPartsString);
                     customer.add(customerPartsArrayList);
                 }
             }
-        }
-        catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
+                assert reader != null;
                 reader.close();
             }
             catch (IOException e) {
@@ -44,7 +39,7 @@ public class Database {
     }
 
     public static Customer instantiateCustomer() {
-        ArrayList<ArrayList> database = readCSV(filepath);
+        ArrayList<ArrayList<String>> database = readCSV(filepath);
         int position = 0;
         for (int i = 0; i < database.size(); i++) {
             if (Main.validCustomerNum.equals(String.valueOf(database.get(i).get(3)))) {
@@ -56,12 +51,11 @@ public class Database {
         String secondName = String.valueOf(database.get(position).get(1));
         int gender = Integer.parseInt(String.valueOf(database.get(position).get(2)));
         int customerNum = Integer.parseInt(Main.validCustomerNum);
-        Customer customer = new Customer(firstName, secondName, gender, customerNum);
-        return customer;
+        return new Customer(firstName, secondName, gender, customerNum);
     }
 
     public static Account instantiateAccount() {
-        ArrayList<ArrayList> database = readCSV(filepath);
+        ArrayList<ArrayList<String>> database = readCSV(filepath);
         int position = 0;
         for (int i = 0; i < database.size(); i++) {
             if (Main.validCustomerNum.equals(String.valueOf(database.get(i).get(3)))) {
@@ -69,26 +63,25 @@ public class Database {
                 break;
             }
         }
-        int accountNum = Integer.parseInt((String) database.get(position).get(4));
-        int pinNum = Integer.parseInt((String)database.get(position).get(5));
-        double balance = Double.parseDouble((String)database.get(position).get(6));
-        Account account = new Account(accountNum,pinNum,balance);
-        return account;
+        int accountNum = Integer.parseInt(database.get(position).get(4));
+        int pinNum = Integer.parseInt(database.get(position).get(5));
+        double balance = Double.parseDouble(database.get(position).get(6));
+        return new Account(accountNum,pinNum,balance);
     }
 
     public static void writeNewBalance(Account account){
-        ArrayList<ArrayList> database = readCSV(filepath);
+        ArrayList<ArrayList<String>> database = readCSV(filepath);
         for (int i = 0; i < database.size(); i++){
-            if (account.accountNum == Integer.parseInt((String) database.get(i).get(4))){
-                if (account.balance == Double.parseDouble((String)database.get(i).get(6))){
+            if (account.accountNum == Integer.parseInt(database.get(i).get(4))){
+                if (account.balance == Double.parseDouble(database.get(i).get(6))){
                     break;
                 }
                 else {
-                    ArrayList customer = database.get(i);
-                    customer.set(6, account.balance);
+                    ArrayList<String> customer = database.get(i);
+                    customer.set(6, String.valueOf(account.balance));
                     StringBuilder databaseText = new StringBuilder();
                     int counter1 = 1;
-                    for (ArrayList array : database) {
+                    for (ArrayList<String> array : database) {
                         StringBuilder arrayText = new StringBuilder();
                         int counter2 = 0;
                         for (Object datapoint : array) {
