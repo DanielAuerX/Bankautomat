@@ -6,8 +6,6 @@ import java.util.Collections;
 
 public class Database {
 
-    public static String filepath = "R:\\Java\\Bankautomat\\customer_database.csv";
-
     public static ArrayList<ArrayList<String>> readCSV(String filepath){
         BufferedReader reader = null;
         String line;
@@ -38,54 +36,52 @@ public class Database {
         return customer;
     }
 
-    public static Customer instantiateCustomer() {
-        ArrayList<ArrayList<String>> database = readCSV(filepath);
+    public static ArrayList<String> getCustomerData(String validCustomerID){
+        ArrayList<ArrayList<String>> database = readCSV("R:\\Java\\Bankautomat\\customer_data.csv");
+        ArrayList<String> customerData;
         int position = 0;
         for (int i = 0; i < database.size(); i++) {
-            if (Main.validCustomerNum.equals(String.valueOf(database.get(i).get(3)))) {
+            if (validCustomerID.equals(String.valueOf(database.get(i).get(2)))) {
                 position = i;
                 break;
             }
         }
-        String firstName = String.valueOf(database.get(position).get(0));
-        String secondName = String.valueOf(database.get(position).get(1));
-        int gender = Integer.parseInt(String.valueOf(database.get(position).get(2)));
-        int customerNum = Integer.parseInt(Main.validCustomerNum);
-        return new Customer(firstName, secondName, gender, customerNum);
+        customerData = database.get(position);
+        return customerData;
+
     }
 
-    public static Account instantiateAccount() {
-        ArrayList<ArrayList<String>> database = readCSV(filepath);
+    public static ArrayList<String> getAccountData(String validCustomerID){
+        ArrayList<ArrayList<String>> database = readCSV("R:\\Java\\Bankautomat\\account_data.csv");
+        ArrayList<String> accountData;
         int position = 0;
         for (int i = 0; i < database.size(); i++) {
-            if (Main.validCustomerNum.equals(String.valueOf(database.get(i).get(3)))) {
+            if (String.valueOf(database.get(i).get(1)).contains(validCustomerID)) {
                 position = i;
                 break;
             }
         }
-        int accountNum = Integer.parseInt(database.get(position).get(4));
-        int pinNum = Integer.parseInt(database.get(position).get(5));
-        double balance = Double.parseDouble(database.get(position).get(6));
-        return new Account(accountNum,pinNum,balance);
+        accountData = database.get(position);
+        return accountData;
+
     }
 
     public static void writeNewBalance(Account account){
-        ArrayList<ArrayList<String>> database = readCSV(filepath);
-        for (int i = 0; i < database.size(); i++){
-            if (account.accountNum == Integer.parseInt(database.get(i).get(4))){
-                if (account.balance == Double.parseDouble(database.get(i).get(6))){
-                    break;
-                }
-                else {
-                    ArrayList<String> customer = database.get(i);
-                    customer.set(6, String.valueOf(account.balance));
+        String accountFilepath = "R:\\Java\\Bankautomat\\account_data.csv";
+
+        ArrayList<String> accountData = getAccountData(EosBankingApplication.validCustomerID);
+        if (Double.parseDouble(accountData.get(3)) != account.getBalance()){
+            ArrayList<ArrayList<String>> accountsArray = readCSV(accountFilepath);
+            for (ArrayList<String> accountArray : accountsArray){
+                if (account.getId() == Integer.parseInt(accountArray.get(0))){
+                    accountArray.set(3, String.valueOf(account.balance));
                     StringBuilder databaseText = new StringBuilder();
                     int counter1 = 1;
-                    for (ArrayList<String> array : database) {
+                    for (ArrayList<String> array : accountsArray) {
                         StringBuilder arrayText = new StringBuilder();
                         int counter2 = 0;
                         for (Object datapoint : array) {
-                            if (counter2 < 6){
+                            if (counter2 < 3){
                                 arrayText.append(datapoint).append(";");
                             }
                             else {
@@ -93,16 +89,16 @@ public class Database {
                             }
                             counter2++;
                         }
-                        if (counter1 == database.size()){
+                        if (counter1 == accountsArray.size()){
                             databaseText.append(arrayText);
                         }
                         else {
                             databaseText.append(arrayText).append("\n");
                         }
                         counter1++;
-                    }
+                }
                     try {
-                        BufferedWriter writer = new BufferedWriter(new FileWriter(filepath));
+                        BufferedWriter writer = new BufferedWriter(new FileWriter(accountFilepath));
                         writer.write(databaseText.toString());
                         writer.close();
                     }

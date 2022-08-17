@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 import java.util.ArrayList;
 
 public class DatabaseTest extends TestCase {
-
+/*
     public void testFilepath_ShouldReturnDefaultLocation(){
         assertEquals("R:\\Java\\Bankautomat\\customer_database.csv", Database.filepath);
     }
@@ -26,7 +26,7 @@ public class DatabaseTest extends TestCase {
         assertEquals("11111", database.get(0).get(4));
     }
 
-    /*@Test
+    @Test
     @Disabled ("Not implemented yet, wait for JUnit5")
     public void testReadCSVShouldThrowException() {
         String incorrectFilepath = "R:\\Java\\Bankautomat\\customer_database.csv.csv.csv";
@@ -34,52 +34,52 @@ public class DatabaseTest extends TestCase {
         // assertThrows(FileNotFoundException.class, () ->{
         // Database.readCSV(incorrectFilepath);
         // });
-    }*/
+    }
 
     public void testInstantiateCustomer_ShouldBeMustermann() {
-        Main.validCustomerNum = "1001";
+        EosBankingApplication.validCustomerID = "1001";
         Customer testCustomer = new Customer("Max", "Mustermann", 0, 1001);
         Customer methodCustomer =  Database.instantiateCustomer();
-        assertEquals(testCustomer.getSecondName(), methodCustomer.getSecondName());
+        assertEquals(testCustomer.getLastName(), methodCustomer.getLastName());
     }
 
     public void testInstantiateCustomer_ShouldBeMusterfrau() {
-        Main.validCustomerNum = "2002";
+        EosBankingApplication.validCustomerID = "2002";
         Customer testCustomer = new Customer("Melina", "Musterfrau", 1, 2002);
         Customer methodCustomer =  Database.instantiateCustomer();
-        assertEquals(testCustomer.getSecondName(), methodCustomer.getSecondName());
+        assertEquals(testCustomer.getLastName(), methodCustomer.getLastName());
     }
 
     public void testInstantiateCustomer_ShouldBeMax() {
-        Main.validCustomerNum = "1001";
+        EosBankingApplication.validCustomerID = "1001";
         Customer testCustomer = new Customer("Max", "Mustermann", 0, 1001);
         Customer methodCustomer =  Database.instantiateCustomer();
         assertEquals(testCustomer.getFirstName(), methodCustomer.getFirstName());
     }
 
     public void testInstantiateCustomer_ShouldBeZero() {
-        Main.validCustomerNum = "1001";
+        EosBankingApplication.validCustomerID = "1001";
         Customer testCustomer = new Customer("Max", "Mustermann", 0, 1001);
         Customer methodCustomer =  Database.instantiateCustomer();
         assertEquals(testCustomer.getGender(), methodCustomer.getGender());
     }
 
     public void testInstantiateAccount_ShouldBe22222() {
-        Main.validCustomerNum = "2002";
+        EosBankingApplication.validCustomerID = "2002";
         Account testAccount = new Account(22222, 220, 0.00);
         Account methodAccount = Database.instantiateAccount();
         assertEquals(testAccount.getAccountNum(), methodAccount.getAccountNum());
     }
 
     public void testInstantiateAccount_ShouldBe220() {
-        Main.validCustomerNum = "2002";
+        EosBankingApplication.validCustomerID = "2002";
         Account testAccount = new Account(22222, 220, 0.00);
         Account methodAccount = Database.instantiateAccount();
         assertEquals(testAccount.getPinNum(), methodAccount.getPinNum());
     }
 
     public void testInstantiateAccount_ShouldBe11111() {
-        Main.validCustomerNum = "1001";
+        EosBankingApplication.validCustomerID = "1001";
         Account testAccount = new Account(11111, 110, 0.00);
         Account methodAccount = Database.instantiateAccount();
         assertEquals(testAccount.getAccountNum(), methodAccount.getAccountNum());
@@ -92,7 +92,7 @@ public class DatabaseTest extends TestCase {
     }
 
     public void testWriteNewBalance_ShouldWriteNewBalancePlusOne() {
-        Main.validCustomerNum = "1001";
+        EosBankingApplication.validCustomerID = "1001";
         Account testAccount = Database.instantiateAccount();
         double oldBalance = testAccount.getBareBalance();
         testAccount.setBalance(oldBalance+1);
@@ -107,7 +107,7 @@ public class DatabaseTest extends TestCase {
     }
 
     public void testWriteNewBalance_ShouldWriteNewBalanceInSecondAccount() {
-        Main.validCustomerNum = "2002";
+        EosBankingApplication.validCustomerID = "2002";
         Account testAccount = Database.instantiateAccount();
         double oldBalance = testAccount.getBareBalance();
         testAccount.setBalance(oldBalance+1);
@@ -122,7 +122,7 @@ public class DatabaseTest extends TestCase {
     }
 
     public void testWriteNewBalance_ShouldWriteNewNegativeBalance() {
-        Main.validCustomerNum = "1001";
+        EosBankingApplication.validCustomerID = "1001";
         Account testAccount = Database.instantiateAccount();
         double oldBalance = testAccount.getBareBalance();
         testAccount.setBalance(-1);
@@ -135,4 +135,5 @@ public class DatabaseTest extends TestCase {
         testAccount.setBalance(oldBalance);
         Database.writeNewBalance(testAccount);
     }
+    */
 }
