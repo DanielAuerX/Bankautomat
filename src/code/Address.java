@@ -12,9 +12,4 @@ public class Address {
         this.city = city;
         this.zipCode = zipCode;
     }
-
-    @Override
-    public String toString() {
-        return street + " " + houseNumber + ", "  + zipCode + " " + city;
-    }
 }

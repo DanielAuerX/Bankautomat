@@ -1,11 +1,8 @@
 package tests;
 
-import code.*;
 import junit.framework.TestCase;
 
-import java.util.ArrayList;
-
-public class DatabaseTest extends TestCase {
+public class xDatabaseTestJ3 extends TestCase {
 /*
     public void testFilepath_ShouldReturnDefaultLocation(){
         assertEquals("R:\\Java\\Bankautomat\\customer_database.csv", Database.filepath);

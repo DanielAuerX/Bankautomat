@@ -66,11 +66,8 @@ public class Database {
 
     }
 
-    public static void writeNewBalance(Account account){
+    public static void writeAccountData(Account account){
         String accountFilepath = "R:\\Java\\Bankautomat\\account_data.csv";
-
-        ArrayList<String> accountData = getAccountData(EosBankingApplication.validCustomerID);
-        if (Double.parseDouble(accountData.get(3)) != account.getBalance()){
             ArrayList<ArrayList<String>> accountsArray = readCSV(accountFilepath);
             for (ArrayList<String> accountArray : accountsArray){
                 if (account.getId() == Integer.parseInt(accountArray.get(0))){
@@ -107,7 +104,7 @@ public class Database {
                     }
                 }
             }
-        }
+
     }
 
 }

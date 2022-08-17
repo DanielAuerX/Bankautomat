@@ -11,9 +11,6 @@ public class EosBankingApplication {
 
         boolean quit = false;
 
-        //System.out.println(Database.getCustomerData("3333"));
-        //System.out.println(Database.getAccountData("9999"));
-
         System.out.println("B A N K O M A T EOS-Bank Standort: Hamburg");
 
         boolean isValidCustomer = validateCustomerID();
@@ -56,7 +53,7 @@ public class EosBankingApplication {
                     break;
                 case "4":
                     System.out.println("Auf Wiedersehen!");
-                    Database.writeNewBalance(account);
+                    Database.writeAccountData(account);
                     quit = true;
                     break;
                 default:

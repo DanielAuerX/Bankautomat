@@ -29,11 +29,11 @@ public class Account {
     }
 
 
-    public void deposit(Double amount){
+    public void deposit(double amount){
         balance += amount;
     }
 
-    public void withdraw(Double amount){
+    public void withdraw(double amount){
         balance -= amount;
     }
 

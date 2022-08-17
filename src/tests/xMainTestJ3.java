@@ -1,13 +1,8 @@
 package tests;
 
-import code.EosBankingApplication;
 import junit.framework.TestCase;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
-public class MainTest extends TestCase {
+public class xMainTestJ3 extends TestCase {
     /*
 
     public void testMain_ShouldReturnGutenTagHerrMustermann() {
