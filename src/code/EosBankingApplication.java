@@ -185,8 +185,13 @@ public class EosBankingApplication {
             String input = scanner.nextLine();
             input = input.replace(",", ".");
             amount = Double.parseDouble(input);
+            if (amount<=0){
+                throw new IllegalArgumentException();
+            }
         } catch (NumberFormatException e) {
             System.out.println("Bitte einen Betrag aus Zahlen eingeben.\nBuchstaben sind nicht gestattet!");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Bitte eine Zahl, die größer als Null ist, eingeben!");
         } catch (Exception e) {
             System.out.println("Es ist ein Problem aufgetreten. Versuchen Sie es erneut.");
         }

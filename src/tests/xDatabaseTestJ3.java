@@ -26,7 +26,7 @@ public class xDatabaseTestJ3 extends TestCase {
     @Test
     @Disabled ("Not implemented yet, wait for JUnit5")
     public void testReadCSVShouldThrowException() {
-        String incorrectFilepath = "R:\\Java\\Bankautomat\\customer_database.csv.csv.csv";
+        String incorrectFilepath = "R:\\Java\\Bankautomat\\WRONG-FILE-PATH.csv";
         ArrayList<ArrayList> database = Database.readCSV(incorrectFilepath);
         // assertThrows(FileNotFoundException.class, () ->{
         // Database.readCSV(incorrectFilepath);

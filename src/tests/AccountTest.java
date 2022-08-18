@@ -8,16 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class AccountTest {
 
     @Test
-    void getBalance() {
-    }
-
-    @Test
-    void getId() {
-    }
-
-    @Test
     void deposit_ShouldReturn150() {
-        Account account = new Account(1, 1, 100.00);
+        var account = new Account(1, 1, 100.00);
 
         account.deposit(50.00);
 
@@ -26,7 +18,7 @@ class AccountTest {
 
     @Test
     void deposit_ShouldReturn50Point25() {
-        Account account = new Account(1, 1, 10.00);
+        var account = new Account(1, 1, 10.00);
 
         account.deposit(40.25);
 
@@ -34,6 +26,39 @@ class AccountTest {
     }
 
     @Test
-    void withdraw() {
+    void deposit_ShouldReturn1() {
+        var account = new Account(1, 1, -10.00);
+
+        account.deposit(11.00);
+
+        assertEquals(1, account.getBalance());
+    }
+
+    @Test
+    void withdraw_ShouldReturn900() {
+        var account = new Account(1, 1, 1000.00);
+
+        account.withdraw(100.00);
+
+        assertEquals(900, account.getBalance());
+    }
+
+    @Test
+    void withdraw_ShouldReturnMinus1000() {
+        var account = new Account(1, 1, 1000.00);
+
+        account.withdraw(2000.00);
+
+        assertEquals(-1000.00, account.getBalance());
+    }
+
+    @Test
+    void testMethod_ShouldThrowE(){
+        var account = new Account(1,1,1);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> {
+                    account.testMethod(-10);
+                });
     }
 }

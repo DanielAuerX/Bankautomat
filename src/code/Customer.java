@@ -1,8 +1,5 @@
 package code;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
 public class Customer {
     String firstName;
     String lastName;

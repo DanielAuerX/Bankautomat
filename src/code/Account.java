@@ -20,21 +20,20 @@ public class Account {
         return id;
     }
 
-    public int getPin() {
-        return pin;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
-
-
     public void deposit(double amount){
         balance += amount;
     }
 
     public void withdraw(double amount){
         balance -= amount;
+    }
+
+    public int testMethod(int amount){
+        if (amount < 0){
+            throw new IllegalArgumentException("Smaller than 0!");
+        }
+        amount = amount + amount;
+        return amount;
     }
 
 }
