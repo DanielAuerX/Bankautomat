@@ -51,12 +51,12 @@ public class Database {
 
     }
 
-    public static ArrayList<String> getAccountData(String validCustomerID){
+    public static ArrayList<String> getAccountData(String accountID){
         ArrayList<ArrayList<String>> database = readCSV("R:\\Java\\Bankautomat\\account_data.csv");
         ArrayList<String> accountData;
         int position = 0;
         for (int i = 0; i < database.size(); i++) {
-            if (String.valueOf(database.get(i).get(1)).contains(validCustomerID)) {
+            if (String.valueOf(database.get(i).get(0)).contains(accountID)) {
                 position = i;
                 break;
             }
@@ -64,6 +64,20 @@ public class Database {
         accountData = database.get(position);
         return accountData;
 
+    }
+
+    public static ArrayList<String> getCardData(String cardID){
+        ArrayList<ArrayList<String>> database = readCSV("R:\\Java\\Bankautomat\\card_data.csv");
+        ArrayList<String> cardData;
+        int position = 0;
+        for (int i = 0; i < database.size(); i++) {
+            if (String.valueOf(database.get(i).get(0)).equals(cardID)) {
+                position = i;
+                break;
+            }
+        }
+        cardData = database.get(position);
+        return cardData;
     }
 
     public static void writeAccountData(Account account){

@@ -1,14 +1,18 @@
 package code;
 
+import java.util.ArrayList;
+
 public class Account {
 
     int id;
-    int pin;
+    ArrayList<String> customerID;
+    int cardID;
     double balance;
 
-    public Account(int id, int pin, double balance) {
+    public Account(int id, ArrayList<String> customerID, int cardID, double balance) {
         this.id = id;
-        this.pin = pin;
+        this.customerID = customerID;
+        this.cardID = cardID;
         this.balance = balance;
     }
 
@@ -26,14 +30,6 @@ public class Account {
 
     public void withdraw(double amount){
         balance -= amount;
-    }
-
-    public int testMethod(int amount){
-        if (amount < 0){
-            throw new IllegalArgumentException("Smaller than 0!");
-        }
-        amount = amount + amount;
-        return amount;
     }
 
 }

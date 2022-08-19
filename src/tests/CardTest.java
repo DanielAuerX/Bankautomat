@@ -27,13 +27,29 @@ class CardTest {
     }
 
     @Test
-    @Disabled("isBlocked cant be accessed")
-    void blockCard() {
+    void blockCard_tooManyTriesShouldSetIsBlockedToTrue() {
         var card = new Card(1, 1, 1, 1, false);
 
         card.blockCard(true);
 
-        //assertTrue();
+        assertTrue(card.getIsBlocked());
+    }
 
+    @Test
+    void blockCard_notTooManyTriesShouldNotChangeIsBlockedFalse() {
+        var card = new Card(1, 1, 1, 1, false);
+
+        card.blockCard(false);
+
+        assertFalse(card.getIsBlocked());
+    }
+
+    @Test
+    void blockCard_notTooManyTriesShouldNotChangeIsBlockedTrue() {
+        var card = new Card(1, 1, 1, 1, true);
+
+        card.blockCard(false);
+
+        assertTrue(card.getIsBlocked());
     }
 }
