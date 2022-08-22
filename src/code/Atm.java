@@ -36,7 +36,7 @@ public class Atm {
         }
         eos.stopProgram(isValidPin);
 
-        String menuText = BOLD+"Sie haben Zugriff auf Ihr Konto mit der Nummer "+customer.getId() +RESET+
+        String menuText = BOLD+"Sie haben Zugriff auf Ihr Konto mit der Nummer "+customer.id() +RESET+
                 "\nWählen Sie\n" +
                 "1 - Kontostand abfragen\n" +
                 "2 - Einzahlen\n" +
@@ -76,14 +76,15 @@ public class Atm {
     }
 
     private static String getGreeting(Customer customer){
-        if (customer.getGender() == 0){
-            return "Herr "+ customer.getLastName();
+        //gender: 0 = male; 1 = female; 2 = diverse
+        if (customer.gender() == 0){
+            return "Herr "+ customer.lastName();
         }
-        else if (customer.getGender() == 1){
-            return "Frau "+ customer.getLastName();
+        else if (customer.gender() == 1){
+            return "Frau "+ customer.lastName();
         }
         else {
-            return customer.getFirstName()+" "+ customer.getLastName();
+            return customer.firstName()+" "+ customer.lastName();
         }
     }
 

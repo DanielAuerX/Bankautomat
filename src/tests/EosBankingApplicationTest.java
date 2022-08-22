@@ -15,7 +15,7 @@ class EosBankingApplicationTest {
 
     @Test
     void checkCardID_CorrectIdShouldReturnTrue(){
-        EosBankingApplication eos = new EosBankingApplication();
+        var eos = new EosBankingApplication();
         String userInput = "1234";
         ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(inputStream);
@@ -27,7 +27,7 @@ class EosBankingApplicationTest {
 
     @Test
     void checkCardID_AlphaNumericInputShouldThrowException(){
-        EosBankingApplication eos = new EosBankingApplication();
+        var eos = new EosBankingApplication();
         String userInput = "abc";
         ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(inputStream);
@@ -38,7 +38,7 @@ class EosBankingApplicationTest {
 
     @Test
     void checkCardID_oneWrongOneCorrectInputShouldReturnTrue(){
-        EosBankingApplication eos = new EosBankingApplication();
+        var eos = new EosBankingApplication();
         String userInput = "999" + "\n1234";
         System.setIn(new ByteArrayInputStream(userInput.getBytes()));
 
@@ -49,7 +49,7 @@ class EosBankingApplicationTest {
 
     @Test
     void checkCardID_oneWrongInputShouldPrintThreeMoreTries(){
-        EosBankingApplication eos = new EosBankingApplication();
+        var eos = new EosBankingApplication();
         String userInput = "999" + "\n1234";
         System.setIn(new ByteArrayInputStream(userInput.getBytes()));
 
@@ -68,7 +68,7 @@ class EosBankingApplicationTest {
 
     @Test
     void checkCardID_fourWrongInputsShouldReturnFalse(){
-        EosBankingApplication eos = new EosBankingApplication();
+        var eos = new EosBankingApplication();
         String userInput = "1" + "\n1"+ "\n1"+ "\n1";
         System.setIn(new ByteArrayInputStream(userInput.getBytes()));
 
@@ -79,8 +79,8 @@ class EosBankingApplicationTest {
 
     @Test
     void instantiateCustomer_correctIDShouldReturnCustomerClass(){
-        EosBankingApplication eos = new EosBankingApplication();
-        Address address = new Address("1", 1, 1, "1");
+        var eos = new EosBankingApplication();
+        var address = new Address("1", 1, 1, "1");
         var testCustomer = new Customer("1", "1", 1, address, "1", "1", 1);
 
         var customer = eos.instantiateCustomer(3333);
@@ -90,26 +90,26 @@ class EosBankingApplicationTest {
 
     @Test
     void instantiateCustomer_1111ShouldReturnCustomerWurst(){
-        EosBankingApplication eos = new EosBankingApplication();
+        var eos = new EosBankingApplication();
 
         var customer = eos.instantiateCustomer(1111);
 
-        assertEquals("Wurst", customer.getLastName());
+        assertEquals("Wurst", customer.lastName());
     }
 
     @Test
     void instantiateCustomer_3333ShouldReturnCustomerEike(){
-        EosBankingApplication eos = new EosBankingApplication();
+        var eos = new EosBankingApplication();
 
         var customer = eos.instantiateCustomer(3333);
 
-        assertEquals("Eike", customer.getFirstName());
+        assertEquals("Eike", customer.firstName());
     }
 
     @Test
     void instantiateCustomer_WrongCustomerIDShouldThrowException(){
         //IOOBE: index starts at -1 so that the first customer data is not being returned
-        EosBankingApplication eos = new EosBankingApplication();
+        var eos = new EosBankingApplication();
 
         assertThrows(IndexOutOfBoundsException.class, ()->{
             eos.instantiateCustomer(0000);;});
@@ -117,7 +117,7 @@ class EosBankingApplicationTest {
 
     @Test
     void instantiateAccount_ShouldReturn11111(){
-        EosBankingApplication eos = new EosBankingApplication();
+        var eos = new EosBankingApplication();
 
         var account = eos.instantiateAccount(11111, 1236);
 
@@ -126,7 +126,7 @@ class EosBankingApplicationTest {
 
     @Test
     void instantiateAccount_ShouldReturnTypeAccount(){
-        EosBankingApplication eos = new EosBankingApplication();
+        var eos = new EosBankingApplication();
         ArrayList <String> customerID= new ArrayList<>();
         var testAccount = new Account(1,customerID, 1, 1.00);
 
@@ -138,7 +138,7 @@ class EosBankingApplicationTest {
     @Test
     void instantiateAccount_ShouldInstantiateAccount11112WithCard1234(){
         //two cards for one account
-        EosBankingApplication eos = new EosBankingApplication();
+        var eos = new EosBankingApplication();
 
         var account = eos.instantiateAccount(11112, 1234);
 
@@ -148,7 +148,7 @@ class EosBankingApplicationTest {
     @Test
     void instantiateAccount_ShouldInstantiateAccount11112WithCard1235(){
         //two cards for one account
-        EosBankingApplication eos = new EosBankingApplication();
+        var eos = new EosBankingApplication();
 
         var account = eos.instantiateAccount(11112, 1235);
 
@@ -157,7 +157,7 @@ class EosBankingApplicationTest {
 
     @Test
     void instantiateCard_ShouldReturnTypeCard (){
-        EosBankingApplication eos = new EosBankingApplication();
+        var eos = new EosBankingApplication();
         Card testCard = new Card(1, 1, 1, 1, false);
 
         var card = eos.instantiateCard("1236");
@@ -166,13 +166,63 @@ class EosBankingApplicationTest {
     }
 
     @Test
-    void instantiateCard_SchouldReturn11111 (){
-        EosBankingApplication eos = new EosBankingApplication();
+    void instantiateCard_Card1236ShouldReturn11111(){
+        var eos = new EosBankingApplication();
 
         var card = eos.instantiateCard("1236");
 
         assertEquals(11111, card.getAccountID());
     }
+
+    @Test
+    void instantiateCard_Card1234ShouldReturn11112(){
+        //two cards should be able to access the same account
+        var eos = new EosBankingApplication();
+
+        var card = eos.instantiateCard("1234");
+
+        assertEquals(11112, card.getAccountID());
+    }
+
+    @Test
+    void instantiateCard_Card1235ShouldReturn11112(){
+        //two cards should be able to access the same account
+        var eos = new EosBankingApplication();
+
+        var card = eos.instantiateCard("1235");
+
+        assertEquals(11112, card.getAccountID());
+    }
+
+    @Test
+    void validatePin_correctPinShouldReturnTrue(){
+        var eos = new EosBankingApplication();
+        var card = eos.instantiateCard("1236");
+        String userInput = "333";
+        System.setIn(new ByteArrayInputStream(userInput.getBytes()));
+
+        boolean actual = eos.validatePin(card);
+
+        assertTrue(actual);
+
+    }
+
+    @Test
+    @Disabled ("Second input is not working")
+    void validatePin_threeWrongPinsShouldReturnFalse(){
+        var eos = new EosBankingApplication();
+        var card = eos.instantiateCard("1236");
+        String userInput = "1"+"\n333"+"\n1";
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(inputStream);
+
+        boolean actual = eos.validatePin(card);
+
+        assertFalse(actual);
+
+    }
+
+
 
 
 

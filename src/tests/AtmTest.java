@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,10 +16,29 @@ class AtmTest {
     @Disabled
     void main() {
         //test happy path
-        String userInput = "1234" + "\n111"+ "\n1"+ "\n4";
+        String userInput = "1234" + "111\n"+ "1\n"+ "4\n";
         System.setIn(new ByteArrayInputStream(userInput.getBytes()));
 
         Atm.main(null);
+    }
+
+    @Test
+    @Disabled ("No such element exception")
+    void main_ShouldReturnGutenTagHerrMustermann() {
+        String userInput = "1234" + "\n111" + "\n4";
+        System.setIn(new ByteArrayInputStream(userInput.getBytes()));
+
+        String expectedCatch = "Bitte Kundennummer eingeben: Guten Tag Herr Mustermann!";
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(outputStream);
+        System.setOut(printStream);
+
+        Atm.main(null);
+
+        String[] lines = outputStream.toString().split(System.lineSeparator());
+        String actual = lines[lines.length-2];
+
+        assertEquals(expectedCatch, actual);
     }
 
     @Test
