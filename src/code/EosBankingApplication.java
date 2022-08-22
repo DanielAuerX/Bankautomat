@@ -41,7 +41,7 @@ public class EosBankingApplication {
         return isValidID;
     }
 
-    public boolean findCardID(String input){
+    private boolean findCardID(String input){
         boolean foundCardID = false;
         try {
             int inputInt = Integer.parseInt(input);
@@ -53,8 +53,9 @@ public class EosBankingApplication {
                 }
             }
         }
-        catch (NumberFormatException e){
+        catch (NumberFormatException nfe){
             System.out.println("Bitte ausschließlich Zahlen eingeben.");
+            throw nfe;
         }
         return foundCardID;
 

@@ -39,7 +39,7 @@ public class Database {
     public static ArrayList<String> getCustomerData(String validCustomerID){
         ArrayList<ArrayList<String>> database = readCSV("R:\\Java\\Bankautomat\\customer_data.csv");
         ArrayList<String> customerData;
-        int position = 0;
+        int position = -1;
         for (int i = 0; i < database.size(); i++) {
             if (validCustomerID.equals(String.valueOf(database.get(i).get(2)))) {
                 position = i;
@@ -118,6 +118,54 @@ public class Database {
                     }
                 }
             }
+
+    }
+
+    public static void writeCardData(Card card){
+        String cardFilepath = "R:\\Java\\Bankautomat\\card_data.csv";
+        ArrayList<ArrayList<String>> cardsArray = readCSV(cardFilepath);
+        for (ArrayList<String> cardArray : cardsArray){
+            if (card.getId() == Integer.parseInt(cardArray.get(0))){
+                String blockedText;
+                if (card.getIsBlocked()){
+                    blockedText = "blocked";
+                }
+                else {
+                    blockedText = "active";
+                }
+                cardArray.set(4, blockedText);
+                StringBuilder databaseText = new StringBuilder();
+                int counter1 = 1;
+                for (ArrayList<String> array : cardsArray) {
+                    StringBuilder arrayText = new StringBuilder();
+                    int counter2 = 0;
+                    for (Object datapoint : array) {
+                        if (counter2 < 4){
+                            arrayText.append(datapoint).append(";");
+                        }
+                        else {
+                            arrayText.append(datapoint);
+                        }
+                        counter2++;
+                    }
+                    if (counter1 == cardsArray.size()){
+                        databaseText.append(arrayText);
+                    }
+                    else {
+                        databaseText.append(arrayText).append("\n");
+                    }
+                    counter1++;
+                }
+                try {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(cardFilepath));
+                    writer.write(databaseText.toString());
+                    writer.close();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
     }
 

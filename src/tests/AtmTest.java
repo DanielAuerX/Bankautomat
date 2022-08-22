@@ -11,7 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class AtmTest {
 
     @Test
+    @Disabled
     void main() {
+        //test happy path
+        String userInput = "1234" + "\n111"+ "\n1"+ "\n4";
+        System.setIn(new ByteArrayInputStream(userInput.getBytes()));
+
+        Atm.main(null);
     }
 
     @Test

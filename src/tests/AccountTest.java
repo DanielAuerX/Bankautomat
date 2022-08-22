@@ -1,7 +1,6 @@
 package tests;
 
 import code.Account;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -58,19 +57,5 @@ class AccountTest {
         account.withdraw(2000.00);
 
         assertEquals(-1000.00, account.getBalance());
-    }
-
-    @Test
-    @Disabled("Deleted method")
-    void testMethod_ShouldThrowE(){
-        ArrayList<String> customerId = new ArrayList<>();
-        var account = new Account(1, customerId, 1, 100.00);
-
-        /*assertThrows(IllegalArgumentException.class,
-                () -> {
-                    account.testMethod(-10);
-                });
-
-         */
     }
 }

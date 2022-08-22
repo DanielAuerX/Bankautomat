@@ -30,6 +30,10 @@ public class Atm {
         }
 
         boolean isValidPin = eos.validatePin(card);
+        if (!isValidPin){
+            card.blockCard(true);
+            Database.writeCardData(card);
+        }
         eos.stopProgram(isValidPin);
 
         String menuText = BOLD+"Sie haben Zugriff auf Ihr Konto mit der Nummer "+customer.getId() +RESET+
