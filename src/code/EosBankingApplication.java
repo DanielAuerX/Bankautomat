@@ -1,7 +1,6 @@
 package code;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
 
 public class EosBankingApplication {
@@ -23,7 +22,7 @@ public class EosBankingApplication {
             boolean isPresentInDatabase = findCardID(inputCardID);
             if (isPresentInDatabase){
                 isValidID = true;
-                Atm.validatedCardID = inputCardID;
+                Atm.validatedCardID = Integer.parseInt(inputCardID);
                 break;
             }
             else {
@@ -61,15 +60,6 @@ public class EosBankingApplication {
 
     }
 
-    public Card instantiateCard(String cardID) {
-        ArrayList<String> database = Database.getCardData(cardID);
-        // 0 card id, 1 account id, 2 customer id, 3 pin, 4 isBlocked
-        boolean isBlocked;
-        isBlocked = !database.get(4).equals("active");
-        return new Card(Integer.parseInt(database.get(0)),Integer.parseInt(database.get(1)),
-                Integer.parseInt(database.get(2)), Integer.parseInt(database.get(3)), isBlocked);
-    }
-
     public boolean validatePin(Card card){
         boolean isValidPin = false;
         for (int i = 2; i > -1; i--){
@@ -93,24 +83,54 @@ public class EosBankingApplication {
         return isValidPin;
     }
 
-    public Customer instantiateCustomer(int validCustomerID) {
-        ArrayList<String> customerData = Database.getCustomerData(String.valueOf(validCustomerID));
-        // 0 firstname, 1 lastname, 2 id, 3 gender, 4 birthday, 5 email, 6 street, 7 house number, 8 zip code, 9 city
-        Address address = new Address(customerData.get(6), Integer.parseInt(customerData.get(7)),
-                Integer.parseInt(customerData.get(8)), customerData.get(9));
+    public Customer getCustomer(int validCustomerID){
+        Database database = new Database();
+        ArrayList<Customer> allCustomers = database.getCustomers();
+        Customer customer;
+        int position = -1;
+        for (int i = 0; i < allCustomers.size(); i++) {
+            if (validCustomerID == allCustomers.get(i).getId()) {
+                position = i;
+                break;
+            }
+        }
+        customer = allCustomers.get(position);
+        return customer;
 
-        return new Customer(customerData.get(0), customerData.get(1), Integer.parseInt(customerData.get(3)),
-                address, customerData.get(4), customerData.get(5), Integer.parseInt(customerData.get(2)));
     }
 
-    public Account instantiateAccount(int accountID, int cardID) {
-        ArrayList<String> database = Database.getAccountData(String.valueOf(accountID));
-        // 0 account number, 1 customer number, 2 card ID, 3 balance
-        String[] customerIdArray = database.get(1).split(",");
-        ArrayList<String> customerIdArrayList = new ArrayList<>();
-        Collections.addAll(customerIdArrayList, customerIdArray);
-        return new Account(accountID, customerIdArrayList, cardID, Double.parseDouble(database.get(3)));
+    public Account getAccount(int accountID){
+        Database database = new Database();
+        ArrayList<Account> allAccounts = database.getAccounts();
+        Account account;
+        int position = -1;
+        for (int i = 0; i < allAccounts.size(); i++) {
+            if (allAccounts.get(i).getId() == accountID) {
+                position = i;
+                break;
+            }
+        }
+        account = allAccounts.get(position);
+        return account;
+
     }
+
+    public Card getCard(int cardID) {
+        Database database = new Database();
+        ArrayList<Card> allCards = database.getCards();
+        Card card;
+        int position = -1;
+        for (int i = 0; i < allCards.size(); i++) {
+            if (allCards.get(i).getId() == cardID) {
+                position = i;
+                break;
+            }
+        }
+        card = allCards.get(position);
+        return card;
+    }
+
+
 
 }
 

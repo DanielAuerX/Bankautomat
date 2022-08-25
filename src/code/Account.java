@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class Account {
 
-    int id;
-    ArrayList<String> customerID;
-    int cardID;
-    double balance;
+    private int id;
+    private int[] customerID;
+    private int[] cardID;
+    private double balance;
 
-    public Account(int id, ArrayList<String> customerID, int cardID, double balance) {
+    public Account(int id, int[] customerID, int[] cardID, double balance) {
         this.id = id;
         this.customerID = customerID;
         this.cardID = cardID;

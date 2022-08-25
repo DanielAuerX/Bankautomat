@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Atm {
 
-    public static String validatedCardID = "";
+    public static int validatedCardID;
 
     public static void main(String[] args) {
 
@@ -16,9 +16,9 @@ public class Atm {
         boolean isValidCardID = eos.checkCardID();
         eos.stopProgram(isValidCardID);
 
-        Card card = eos.instantiateCard(validatedCardID);
-        Customer customer = eos.instantiateCustomer(card.getCustomerID());
-        Account account = eos.instantiateAccount(card.getAccountID(), card.getId());
+        Card card = eos.getCard(validatedCardID);
+        Customer customer = eos.getCustomer(card.getCustomerID());
+        Account account = eos.getAccount(card.getAccountID());
 
         String name = getGreeting(customer);
         System.out.println("Guten Tag "+name+"!");
@@ -36,7 +36,7 @@ public class Atm {
         }
         eos.stopProgram(isValidPin);
 
-        String menuText = BOLD+"Sie haben Zugriff auf Ihr Konto mit der Nummer "+customer.id() +RESET+
+        String menuText = BOLD+"Sie haben Zugriff auf Ihr Konto mit der Nummer "+customer.getId() +RESET+
                 "\nWählen Sie\n" +
                 "1 - Kontostand abfragen\n" +
                 "2 - Einzahlen\n" +
@@ -77,14 +77,14 @@ public class Atm {
 
     private static String getGreeting(Customer customer){
         //gender: 0 = male; 1 = female; 2 = diverse
-        if (customer.gender() == 0){
-            return "Herr "+ customer.lastName();
+        if (customer.getGender() == 0){
+            return "Herr "+ customer.getLastName();
         }
-        else if (customer.gender() == 1){
-            return "Frau "+ customer.lastName();
+        else if (customer.getGender() == 1){
+            return "Frau "+ customer.getLastName();
         }
         else {
-            return customer.firstName()+" "+ customer.lastName();
+            return customer.getFirstName()+" "+ customer.getLastName();
         }
     }
 
@@ -95,7 +95,7 @@ public class Atm {
             formattedText = "\n"+ TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+ BOLD+ RED_BACKGROUND+balanceStr+"€\n"+ RESET;
         }
         else {
-            formattedText = "\n"+ TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+ BOLD+balanceStr+"€\n"+ RESET;
+            formattedText = "\n"+ TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+ BOLD+balanceStr+"\u20AC\n"+ RESET;
         }
 
         return formattedText;
@@ -123,7 +123,7 @@ public class Atm {
     }
 
     public static int askForPin() {
-        int inputPinInt = 0;
+        int inputPinInt;
         Scanner scanner = new Scanner(System.in);
         try {
             System.out.print("Bitte Geheimzahl eingeben: ");

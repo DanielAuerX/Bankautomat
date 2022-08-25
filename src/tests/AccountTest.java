@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AccountTest {
-
+/*
     @Test
     void deposit_ShouldReturn150() {
         ArrayList<String> customerId = new ArrayList<>();
@@ -58,4 +58,6 @@ class AccountTest {
 
         assertEquals(-1000.00, account.getBalance());
     }
+
+ */
 }

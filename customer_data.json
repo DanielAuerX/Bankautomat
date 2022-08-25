@@ -1,0 +1,58 @@
+[
+  {
+    "firstName" : "Hans",
+    "lastName" : "Wurst",
+    "gender" : 0,
+    "address" : {
+      "street" : "Mühlenstrasse",
+      "houseNumber" : "1",
+      "zipCode" : 22415,
+      "city" : "Hamburg"
+    },
+    "birthday" : "02.11.1980",
+    "email" : "hans.wurst@hotmail.com",
+    "id" : 1111
+  },
+  {
+    "firstName" : "Beate",
+    "lastName" : "Wurst",
+    "gender" : 1,
+    "address" : {
+      "street" : "Mühlenstrasse",
+      "houseNumber" : "1",
+      "zipCode" : 22415,
+      "city" : "Hamburg"
+    },
+    "birthday" : "14.09.1975",
+    "email" : "b.wurst@web.de",
+    "id" : 2222
+  },
+  {
+    "firstName" : "Eike",
+    "lastName" : "Mueller",
+    "gender" : 2,
+    "address" : {
+      "street" : "Dorfweg",
+      "houseNumber" : "99",
+      "zipCode" : 13359,
+      "city" : "Berlin"
+    },
+    "birthday" : "10.01.2000",
+    "email" : "eike.m@gmail.com",
+    "id" : 3333
+  },
+  {
+    "firstName" : "Michael",
+    "lastName" : "Meier",
+    "gender" : 0,
+    "address" : {
+      "street" : "Berliner Weg",
+      "houseNumber" : "10a",
+      "zipCode" : 13357,
+      "city" : "Bremen"
+    },
+    "birthday" : "11.09.1992",
+    "email" : "mm@web.de",
+    "id" : 9999
+  }
+]

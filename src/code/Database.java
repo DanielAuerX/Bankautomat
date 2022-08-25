@@ -1,8 +1,12 @@
 package code;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class Database {
 
@@ -36,48 +40,49 @@ public class Database {
         return customer;
     }
 
-    public static ArrayList<String> getCustomerData(String validCustomerID){
-        ArrayList<ArrayList<String>> database = readCSV("R:\\Java\\Bankautomat\\customer_data.csv");
-        ArrayList<String> customerData;
-        int position = -1;
-        for (int i = 0; i < database.size(); i++) {
-            if (validCustomerID.equals(String.valueOf(database.get(i).get(2)))) {
-                position = i;
-                break;
-            }
-        }
-        customerData = database.get(position);
-        return customerData;
-
+    private String readJSON(String filepath) throws IOException{
+        String content = new String(Files.readAllBytes(Paths.get(filepath)));
+        return content;
     }
 
-    public static ArrayList<String> getAccountData(String accountID){
-        ArrayList<ArrayList<String>> database = readCSV("R:\\Java\\Bankautomat\\account_data.csv");
-        ArrayList<String> accountData;
-        int position = 0;
-        for (int i = 0; i < database.size(); i++) {
-            if (String.valueOf(database.get(i).get(0)).contains(accountID)) {
-                position = i;
-                break;
-            }
+    public ArrayList<Card> getCards(){
+        Gson gson = new Gson();
+        ArrayList<Card> allCards = null;
+        Database database = new Database();
+        try {
+            String content = database.readJSON("R:\\Java\\Bankautomat\\card_data.json");
+            allCards = gson.fromJson(content, new TypeToken<ArrayList<Card>>() {}.getType());
+            //allCustomer.stream().forEach(n -> System.out.println(n));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        accountData = database.get(position);
-        return accountData;
-
+        return allCards;
     }
 
-    public static ArrayList<String> getCardData(String cardID){
-        ArrayList<ArrayList<String>> database = readCSV("R:\\Java\\Bankautomat\\card_data.csv");
-        ArrayList<String> cardData;
-        int position = 0;
-        for (int i = 0; i < database.size(); i++) {
-            if (String.valueOf(database.get(i).get(0)).equals(cardID)) {
-                position = i;
-                break;
-            }
+    public ArrayList<Account> getAccounts(){
+        Gson gson = new Gson();
+        ArrayList<Account> allAccounts = null;
+        Database database = new Database();
+        try {
+            String content = database.readJSON("R:\\Java\\Bankautomat\\account_data.json");
+            allAccounts = gson.fromJson(content, new TypeToken<ArrayList<Account>>() {}.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        cardData = database.get(position);
-        return cardData;
+        return allAccounts;
+    }
+
+    public ArrayList<Customer> getCustomers(){
+        Gson gson = new Gson();
+        ArrayList<Customer> allCustomers = null;
+        Database database = new Database();
+        try {
+            String content = database.readJSON("R:\\Java\\Bankautomat\\customer_data.json");
+            allCustomers = gson.fromJson(content, new TypeToken<ArrayList<Customer>>() {}.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return allCustomers;
     }
 
     public static void writeAccountData(Account account){
@@ -85,7 +90,7 @@ public class Database {
             ArrayList<ArrayList<String>> accountsArray = readCSV(accountFilepath);
             for (ArrayList<String> accountArray : accountsArray){
                 if (account.getId() == Integer.parseInt(accountArray.get(0))){
-                    accountArray.set(3, String.valueOf(account.balance));
+                    accountArray.set(3, String.valueOf(account.getBalance()));
                     StringBuilder databaseText = new StringBuilder();
                     int counter1 = 1;
                     for (ArrayList<String> array : accountsArray) {
