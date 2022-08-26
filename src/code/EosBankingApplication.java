@@ -85,6 +85,8 @@ public class EosBankingApplication {
         List<Customer> customers = allCustomers.stream().
                 filter(customer -> customer.getId() == validCustomerID).
                 toList();
+        //stream for each lambda
+        // hashmap
         return customers.get(0);
     }
 

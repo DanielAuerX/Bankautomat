@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,17 +14,18 @@ class AtmTest {
 
     @Test
     @Disabled
-    void main() throws IOException {
+    void main() {
         //test happy path
-        String userInput = "1234" + "111\n"+ "1\n"+ "4\n";
+        String userInput = "1234" + "\n111"+ "\n1"+ "\n4";
         System.setIn(new ByteArrayInputStream(userInput.getBytes()));
+        //No input at all???
 
         Atm.main(null);
     }
 
     @Test
     @Disabled ("No such element exception")
-    void main_ShouldReturnGutenTagHerrMustermann() throws IOException {
+    void main_ShouldReturnGutenTagHerrMustermann() {
         String userInput = "1234" + "\n111" + "\n4";
         System.setIn(new ByteArrayInputStream(userInput.getBytes()));
 
@@ -72,7 +72,6 @@ class AtmTest {
     }
 
     @Test
-    @Disabled
     void askForPin_MinusOneInputShouldReturnException() {
         String userInput = "-1";
         ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());

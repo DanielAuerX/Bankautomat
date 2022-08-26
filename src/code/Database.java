@@ -2,6 +2,7 @@ package code;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class Database {
 
-    public String readJSON(String filepath){
+    public String readJSON(String filepath) {
         String jsonString = null;
         try {
             jsonString = new String(Files.readAllBytes(Paths.get(filepath)));
