@@ -21,22 +21,23 @@ public class Atm {
         Account account = eos.getAccount(card.getAccountID());
 
         String name = getGreeting(customer);
-        System.out.println("Guten Tag "+name+"!");
+        System.out.println("Guten Tag " + name + "!");
 
-        if (card.getIsBlocked()){
-            System.out.println(BOLD+"Ihre Karte ist gesperrt!\n"+RESET
-                    +"Wenden Sie sich bitte umgehend an das Bankpersonal.");
+        if (card.getIsBlocked()) {
+            System.out.println(BOLD + "Ihre Karte ist gesperrt!\n" + RESET
+                    + "Wenden Sie sich bitte umgehend an das Bankpersonal.");
             eos.stopProgram(false);
         }
 
         boolean isValidPin = eos.validatePin(card);
-        if (!isValidPin){
+        if (!isValidPin) {
             card.blockCard(true);
-            Database.writeCardData(card);
+            Database database = new Database();
+            database.writeCardData(card);
         }
         eos.stopProgram(isValidPin);
 
-        String menuText = BOLD+"Sie haben Zugriff auf Ihr Konto mit der Nummer "+customer.getId() +RESET+
+        String menuText = BOLD + "Sie haben Zugriff auf Ihr Konto mit der Nummer " + customer.getId() + RESET +
                 "\nWählen Sie\n" +
                 "1 - Kontostand abfragen\n" +
                 "2 - Einzahlen\n" +
@@ -45,10 +46,10 @@ public class Atm {
                 "Eingabe: ";
 
         Scanner scanner = new Scanner(System.in);
-        while (!quit){
+        while (!quit) {
             System.out.print(menuText);
             String input = scanner.nextLine();
-            switch (input){
+            switch (input) {
                 case "1":
                     System.out.println(showBalanceText(account));
                     break;
@@ -64,7 +65,8 @@ public class Atm {
                     break;
                 case "4":
                     System.out.println("Auf Wiedersehen!");
-                    Database.writeAccountData(account);
+                    Database database = new Database();
+                    database.writeAccountData(account);
                     quit = true;
                     break;
                 default:

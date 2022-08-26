@@ -1,6 +1,7 @@
 package code;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class EosBankingApplication {
@@ -41,23 +42,18 @@ public class EosBankingApplication {
     }
 
     private boolean findCardID(String input){
-        boolean foundCardID = false;
+        boolean foundCardID;
+        Database database = new Database();
         try {
             int inputInt = Integer.parseInt(input);
-            ArrayList <ArrayList<String>> cardData = Database.readCSV("R:\\Java\\Bankautomat\\card_data.csv");
-            for (ArrayList<String> cardDatapoint : cardData) {
-                if (inputInt == Integer.parseInt(cardDatapoint.get(0))) {
-                    foundCardID = true;
-                    break;
-                }
-            }
+            ArrayList <Card> cardData = database.getCards();
+            foundCardID = cardData.stream().anyMatch(card -> card.getId() == inputInt);
         }
         catch (NumberFormatException nfe){
             System.out.println("Bitte ausschließlich Zahlen eingeben.");
             throw nfe;
         }
         return foundCardID;
-
     }
 
     public boolean validatePin(Card card){
@@ -86,50 +82,29 @@ public class EosBankingApplication {
     public Customer getCustomer(int validCustomerID){
         Database database = new Database();
         ArrayList<Customer> allCustomers = database.getCustomers();
-        Customer customer;
-        int position = -1;
-        for (int i = 0; i < allCustomers.size(); i++) {
-            if (validCustomerID == allCustomers.get(i).getId()) {
-                position = i;
-                break;
-            }
-        }
-        customer = allCustomers.get(position);
-        return customer;
-
+        List<Customer> customers = allCustomers.stream().
+                filter(customer -> customer.getId() == validCustomerID).
+                toList();
+        return customers.get(0);
     }
 
     public Account getAccount(int accountID){
         Database database = new Database();
         ArrayList<Account> allAccounts = database.getAccounts();
-        Account account;
-        int position = -1;
-        for (int i = 0; i < allAccounts.size(); i++) {
-            if (allAccounts.get(i).getId() == accountID) {
-                position = i;
-                break;
-            }
-        }
-        account = allAccounts.get(position);
-        return account;
-
+        List<Account> accounts = allAccounts.stream().
+                filter(account -> account.getId() == accountID).
+                toList();
+        return accounts.get(0);
     }
 
     public Card getCard(int cardID) {
         Database database = new Database();
         ArrayList<Card> allCards = database.getCards();
-        Card card;
-        int position = -1;
-        for (int i = 0; i < allCards.size(); i++) {
-            if (allCards.get(i).getId() == cardID) {
-                position = i;
-                break;
-            }
-        }
-        card = allCards.get(position);
-        return card;
+        List<Card> cards = allCards.stream().
+                filter(account -> account.getId() == cardID).
+                toList();
+        return cards.get(0);
     }
-
 
 
 }

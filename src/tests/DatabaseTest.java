@@ -10,19 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseTest {
 
-    @Test
-    void readCSV() {
-
-    }
-
-    @Test
-    void readCSV_ShouldThrowException() {
-        String incorrectFilepath = "R:\\Java\\Bankautomat\\WRONG-FILE-PATH.csv";
-        assertThrows(FileNotFoundException.class,
-                () -> {
-                    Database.readCSV(incorrectFilepath);
-                });
-    }
 
     @Test
     void getCustomerData() {

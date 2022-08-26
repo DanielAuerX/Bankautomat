@@ -4,174 +4,83 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class Database {
 
-    public static ArrayList<ArrayList<String>> readCSV(String filepath){
-        BufferedReader reader = null;
-        String line;
-        ArrayList<ArrayList<String>> customer = new ArrayList<>();
-
+    public String readJSON(String filepath){
+        String jsonString = null;
         try {
-            reader = new BufferedReader(new FileReader(filepath));
-            while ((line = reader.readLine()) != null){
-                String[] row = line.split("\n");
-                for (String index : row){
-                    String[] customerPartsString = index.split(";");
-                    ArrayList<String> customerPartsArrayList = new ArrayList<>();
-                    Collections.addAll(customerPartsArrayList, customerPartsString);
-                    customer.add(customerPartsArrayList);
-                }
-            }
+            jsonString = new String(Files.readAllBytes(Paths.get(filepath)));
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                assert reader != null;
-                reader.close();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
         }
-        return customer;
-    }
-
-    private String readJSON(String filepath) throws IOException{
-        String content = new String(Files.readAllBytes(Paths.get(filepath)));
-        return content;
+        return jsonString;
     }
 
     public ArrayList<Card> getCards(){
         Gson gson = new Gson();
-        ArrayList<Card> allCards = null;
         Database database = new Database();
-        try {
-            String content = database.readJSON("R:\\Java\\Bankautomat\\card_data.json");
-            allCards = gson.fromJson(content, new TypeToken<ArrayList<Card>>() {}.getType());
-            //allCustomer.stream().forEach(n -> System.out.println(n));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return allCards;
+        String content = database.readJSON("R:\\Java\\Bankautomat\\card_data.json");
+        return gson.fromJson(content, new TypeToken<ArrayList<Card>>() {}.getType());
     }
 
     public ArrayList<Account> getAccounts(){
         Gson gson = new Gson();
-        ArrayList<Account> allAccounts = null;
         Database database = new Database();
-        try {
-            String content = database.readJSON("R:\\Java\\Bankautomat\\account_data.json");
-            allAccounts = gson.fromJson(content, new TypeToken<ArrayList<Account>>() {}.getType());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return allAccounts;
+        String content = database.readJSON("R:\\Java\\Bankautomat\\account_data.json");
+        return gson.fromJson(content, new TypeToken<ArrayList<Account>>() {}.getType());
     }
 
     public ArrayList<Customer> getCustomers(){
         Gson gson = new Gson();
-        ArrayList<Customer> allCustomers = null;
         Database database = new Database();
+        String content = database.readJSON("R:\\Java\\Bankautomat\\customer_data.json");
+        return gson.fromJson(content, new TypeToken<ArrayList<Customer>>() {}.getType());
+    }
+
+    public void writeAccountData(Account account){
+        String accountFilepath = "R:\\Java\\Bankautomat\\account_data.json";
+        Gson gson = new Gson();
+        Database database = new Database();
+        ArrayList<Account> allAccounts = database.getAccounts();
+        List<Account> oldCard = allAccounts.stream().
+                filter(account1 -> account.getId() == account1.getId()).
+                toList();
+        allAccounts.remove(oldCard.get(0));
+        allAccounts.add(account);
+        String jsonText = gson.toJson(allAccounts, new TypeToken<ArrayList<Card>>() {}.getType());
         try {
-            String content = database.readJSON("R:\\Java\\Bankautomat\\customer_data.json");
-            allCustomers = gson.fromJson(content, new TypeToken<ArrayList<Customer>>() {}.getType());
-        } catch (IOException e) {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(accountFilepath));
+            writer.write(jsonText);
+            writer.close();
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
-        return allCustomers;
     }
 
-    public static void writeAccountData(Account account){
-        String accountFilepath = "R:\\Java\\Bankautomat\\account_data.csv";
-            ArrayList<ArrayList<String>> accountsArray = readCSV(accountFilepath);
-            for (ArrayList<String> accountArray : accountsArray){
-                if (account.getId() == Integer.parseInt(accountArray.get(0))){
-                    accountArray.set(3, String.valueOf(account.getBalance()));
-                    StringBuilder databaseText = new StringBuilder();
-                    int counter1 = 1;
-                    for (ArrayList<String> array : accountsArray) {
-                        StringBuilder arrayText = new StringBuilder();
-                        int counter2 = 0;
-                        for (Object datapoint : array) {
-                            if (counter2 < 3){
-                                arrayText.append(datapoint).append(";");
-                            }
-                            else {
-                                arrayText.append(datapoint);
-                            }
-                            counter2++;
-                        }
-                        if (counter1 == accountsArray.size()){
-                            databaseText.append(arrayText);
-                        }
-                        else {
-                            databaseText.append(arrayText).append("\n");
-                        }
-                        counter1++;
-                }
-                    try {
-                        BufferedWriter writer = new BufferedWriter(new FileWriter(accountFilepath));
-                        writer.write(databaseText.toString());
-                        writer.close();
-                    }
-                    catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-    }
-
-    public static void writeCardData(Card card){
-        String cardFilepath = "R:\\Java\\Bankautomat\\card_data.csv";
-        ArrayList<ArrayList<String>> cardsArray = readCSV(cardFilepath);
-        for (ArrayList<String> cardArray : cardsArray){
-            if (card.getId() == Integer.parseInt(cardArray.get(0))){
-                String blockedText;
-                if (card.getIsBlocked()){
-                    blockedText = "blocked";
-                }
-                else {
-                    blockedText = "active";
-                }
-                cardArray.set(4, blockedText);
-                StringBuilder databaseText = new StringBuilder();
-                int counter1 = 1;
-                for (ArrayList<String> array : cardsArray) {
-                    StringBuilder arrayText = new StringBuilder();
-                    int counter2 = 0;
-                    for (Object datapoint : array) {
-                        if (counter2 < 4){
-                            arrayText.append(datapoint).append(";");
-                        }
-                        else {
-                            arrayText.append(datapoint);
-                        }
-                        counter2++;
-                    }
-                    if (counter1 == cardsArray.size()){
-                        databaseText.append(arrayText);
-                    }
-                    else {
-                        databaseText.append(arrayText).append("\n");
-                    }
-                    counter1++;
-                }
-                try {
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(cardFilepath));
-                    writer.write(databaseText.toString());
-                    writer.close();
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+    public void writeCardData(Card card){
+        String cardFilepath = "R:\\Java\\Bankautomat\\card_data.json";
+        Gson gson = new Gson();
+        Database database = new Database();
+        ArrayList<Card> allCards = database.getCards();
+        List<Card> oldCard = allCards.stream().
+                filter(card1 -> card.getId() == card1.getId()).
+                toList();
+        allCards.remove(oldCard.get(0));
+        allCards.add(card);
+        String jsonText = gson.toJson(allCards, new TypeToken<ArrayList<Card>>() {}.getType());
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(cardFilepath));
+            writer.write(jsonText);
+            writer.close();
         }
-
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
