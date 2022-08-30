@@ -1,5 +1,8 @@
 package code;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -43,10 +46,9 @@ public class EosBankingApplication {
 
     private boolean findCardID(String input){
         boolean foundCardID;
-        Database database = new Database();
         try {
             int inputInt = Integer.parseInt(input);
-            ArrayList <Card> cardData = database.getCards();
+            ArrayList <Card> cardData = getCards();
             foundCardID = cardData.stream().anyMatch(card -> card.getId() == inputInt);
         }
         catch (NumberFormatException nfe){
@@ -79,9 +81,29 @@ public class EosBankingApplication {
         return isValidPin;
     }
 
-    public Customer getCustomer(int validCustomerID){
+    public ArrayList<Card> getCards(){
+        Gson gson = new Gson();
         Database database = new Database();
-        ArrayList<Customer> allCustomers = database.getCustomers();
+        String content = database.readJSON("R:\\Java\\Bankautomat\\card_data.json");
+        return gson.fromJson(content, new TypeToken<ArrayList<Card>>() {}.getType());
+    }
+
+    public ArrayList<Account> getAccounts(){
+        Gson gson = new Gson();
+        Database database = new Database();
+        String content = database.readJSON("R:\\Java\\Bankautomat\\account_data.json");
+        return gson.fromJson(content, new TypeToken<ArrayList<Account>>() {}.getType());
+    }
+
+    public ArrayList<Customer> getCustomers(){
+        Gson gson = new Gson();
+        Database database = new Database();
+        String content = database.readJSON("R:\\Java\\Bankautomat\\customer_data.json");
+        return gson.fromJson(content, new TypeToken<ArrayList<Customer>>() {}.getType());
+    }
+
+    public Customer getCustomer(int validCustomerID){
+        ArrayList<Customer> allCustomers = getCustomers();
         List<Customer> customers = allCustomers.stream().
                 filter(customer -> customer.getId() == validCustomerID).
                 toList();
@@ -91,8 +113,7 @@ public class EosBankingApplication {
     }
 
     public Account getAccount(int accountID){
-        Database database = new Database();
-        ArrayList<Account> allAccounts = database.getAccounts();
+        ArrayList<Account> allAccounts = getAccounts();
         List<Account> accounts = allAccounts.stream().
                 filter(account -> account.getId() == accountID).
                 toList();
@@ -100,14 +121,12 @@ public class EosBankingApplication {
     }
 
     public Card getCard(int cardID) {
-        Database database = new Database();
-        ArrayList<Card> allCards = database.getCards();
+        ArrayList<Card> allCards = getCards();
         List<Card> cards = allCards.stream().
                 filter(account -> account.getId() == cardID).
                 toList();
         return cards.get(0);
     }
-
 
 }
 

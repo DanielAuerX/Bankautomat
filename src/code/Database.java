@@ -2,7 +2,6 @@ package code;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,32 +20,11 @@ public class Database {
         return jsonString;
     }
 
-    public ArrayList<Card> getCards(){
-        Gson gson = new Gson();
-        Database database = new Database();
-        String content = database.readJSON("R:\\Java\\Bankautomat\\card_data.json");
-        return gson.fromJson(content, new TypeToken<ArrayList<Card>>() {}.getType());
-    }
-
-    public ArrayList<Account> getAccounts(){
-        Gson gson = new Gson();
-        Database database = new Database();
-        String content = database.readJSON("R:\\Java\\Bankautomat\\account_data.json");
-        return gson.fromJson(content, new TypeToken<ArrayList<Account>>() {}.getType());
-    }
-
-    public ArrayList<Customer> getCustomers(){
-        Gson gson = new Gson();
-        Database database = new Database();
-        String content = database.readJSON("R:\\Java\\Bankautomat\\customer_data.json");
-        return gson.fromJson(content, new TypeToken<ArrayList<Customer>>() {}.getType());
-    }
-
     public void writeAccountData(Account account){
         String accountFilepath = "R:\\Java\\Bankautomat\\account_data.json";
         Gson gson = new Gson();
-        Database database = new Database();
-        ArrayList<Account> allAccounts = database.getAccounts();
+        EosBankingApplication eos = new EosBankingApplication();
+        ArrayList<Account> allAccounts = eos.getAccounts();
         List<Account> oldCard = allAccounts.stream().
                 filter(account1 -> account.getId() == account1.getId()).
                 toList();
@@ -66,8 +44,8 @@ public class Database {
     public void writeCardData(Card card){
         String cardFilepath = "R:\\Java\\Bankautomat\\card_data.json";
         Gson gson = new Gson();
-        Database database = new Database();
-        ArrayList<Card> allCards = database.getCards();
+        EosBankingApplication eos = new EosBankingApplication();
+        ArrayList<Card> allCards = eos.getCards();
         List<Card> oldCard = allCards.stream().
                 filter(card1 -> card.getId() == card1.getId()).
                 toList();

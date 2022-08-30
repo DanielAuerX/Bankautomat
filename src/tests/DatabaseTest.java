@@ -28,64 +28,6 @@ class DatabaseTest {
     }
 
     @Test
-    void getCards_ShouldReturnArrayWithElements() {
-        var database = new Database();
-
-        ArrayList<Card> actual = database.getCards();
-
-        assertFalse(actual.isEmpty());
-    }
-
-    @Test
-    void getCards_ShouldReturnArrayWithCards() {
-        var database = new Database();
-        var testCard = new Card(1, 1,1,1,false);
-
-        ArrayList<Card> actual = database.getCards();
-
-        assertEquals(actual.get(0).getClass(), testCard.getClass());
-    }
-
-    @Test
-    void getAccounts_ShouldReturnArrayWithElements() {
-        var database = new Database();
-
-        ArrayList<Account> actual = database.getAccounts();
-
-        assertFalse(actual.isEmpty());
-    }
-
-    @Test
-    void getAccounts_ShouldReturnArrayWithCards() {
-        var database = new Database();
-        var testAccount = new Account(1, new int[] {1}, new int[] {1}, 1);
-
-        ArrayList<Account> actual = database.getAccounts();
-
-        assertEquals(actual.get(0).getClass(), testAccount.getClass());
-    }
-
-    @Test
-    void getCustomers_ShouldReturnArrayWithElements() {
-        var database = new Database();
-
-        ArrayList<Customer> actual = database.getCustomers();
-
-        assertFalse(actual.isEmpty());
-    }
-
-    @Test
-    void getCustomers_ShouldReturnArrayWithCustomers() {
-        var database = new Database();
-        var address = new Address("a", "1a", 123, "a");
-        var testCustomer = new Customer("a", "a", 0, address, "1", "a", 1);
-
-        ArrayList<Customer> actual = database.getCustomers();
-
-        assertEquals(actual.get(0).getClass(), testCustomer.getClass());
-    }
-
-    @Test
     void writeAccountData_Deposit1ShouldWriteOldBalancePlus1() {
         var database = new Database();
         var eos = new EosBankingApplication();
