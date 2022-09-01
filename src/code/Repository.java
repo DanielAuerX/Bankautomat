@@ -1,6 +1,7 @@
 package code;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +25,10 @@ public class Repository {
     }
 
     private ArrayList<Customer> getCustomers(){
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("dd.MM.yyyy").create();
         JsonIO jsonIO = new JsonIO();
-        String content = jsonIO.readJson("R:\\Java\\Bankautomat\\customer_data.json");
-        return gson.fromJson(content, new TypeToken<ArrayList<Customer>>() {}.getType());
+        String jsonString = jsonIO.readJson("R:\\Java\\Bankautomat\\customer_data.json");
+        return gson.fromJson(jsonString, new TypeToken<ArrayList<Customer>>() {}.getType());
     }
 
     public Customer getCustomer(int validCustomerID){

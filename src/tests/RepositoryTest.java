@@ -2,15 +2,21 @@ package tests;
 
 import code.*;
 import org.junit.jupiter.api.Test;
+
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class RepositoryTest {
 
     @Test
-    void getCustomer_correctIDShouldReturnCustomerClass(){
+    void getCustomer_correctIDShouldReturnCustomerClass() throws ParseException {
         var repository = new Repository();
         var address = new Address("1", "1", 1, "1");
-        var testCustomer = new Customer("1", "1", 1, address, "1", "1", 1);
+        var birthday = new Date(2000, Calendar.FEBRUARY, 12);
+        var testCustomer = new Customer("1", "1", 1, address, birthday, "1", 1);
 
         var customer = repository.getCustomer(3333);
 
