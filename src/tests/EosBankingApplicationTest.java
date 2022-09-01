@@ -32,8 +32,7 @@ class EosBankingApplicationTest {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(inputStream);
 
-        assertThrows(NumberFormatException.class, ()->{
-            eos.checkCardID();});
+        assertThrows(NumberFormatException.class, eos::checkCardID); //    ()->{eos.checkCardID();}
     }
 
     @Test
@@ -78,125 +77,10 @@ class EosBankingApplicationTest {
     }
 
     @Test
-    void getCustomer_correctIDShouldReturnCustomerClass(){
-        var eos = new EosBankingApplication();
-        var address = new Address("1", "1", 1, "1");
-        var testCustomer = new Customer("1", "1", 1, address, "1", "1", 1);
-
-        var customer = eos.getCustomer(3333);
-
-        assertEquals(testCustomer.getClass(), customer.getClass());
-    }
-
-    @Test
-    void getCustomer_1111ShouldReturnCustomerWurst(){
-        var eos = new EosBankingApplication();
-
-        var customer = eos.getCustomer(1111);
-
-        assertEquals("Wurst", customer.getLastName());
-    }
-
-    @Test
-    void getCustomer_3333ShouldReturnCustomerEike(){
-        var eos = new EosBankingApplication();
-
-        var customer = eos.getCustomer(3333);
-
-        assertEquals("Eike", customer.getFirstName());
-    }
-
-    @Test
-    void getCustomer_WrongCustomerIDShouldThrowException(){
-        //IOOBE: index starts at -1 so that the first customer data is not being returned
-        var eos = new EosBankingApplication();
-
-        assertThrows(IndexOutOfBoundsException.class, ()->{
-            eos.getCustomer(0000);;});
-    }
-
-    @Test
-    void getAccount_ShouldReturn11111(){
-        var eos = new EosBankingApplication();
-
-        var account = eos.getAccount(11111);
-
-        assertEquals(11111, account.getId());
-    }
-
-    @Test
-    void getAccount_ShouldReturnTypeAccount(){
-        var eos = new EosBankingApplication();
-        var testAccount = new Account(1, new int[]{1}, new int[]{1}, 1.00);
-
-        var account = eos.getAccount(11111);
-
-        assertEquals(testAccount.getClass(), account.getClass());
-    }
-
-    @Test
-    void getAccount_ShouldInstantiateAccount11112WithCard1234(){
-        //two cards for one account
-        var eos = new EosBankingApplication();
-
-        var account = eos.getAccount(11112);
-
-        assertEquals(11112, account.getId());
-    }
-
-    @Test
-    void getAccount_ShouldInstantiateAccount11112WithCard1235(){
-        //two cards for one account
-        var eos = new EosBankingApplication();
-
-        var account = eos.getAccount(11112);
-
-        assertEquals(11112, account.getId());
-    }
-
-    @Test
-    void getCard_ShouldReturnTypeCard (){
-        var eos = new EosBankingApplication();
-        Card testCard = new Card(1, 1, 1, 1, false);
-
-        var card = eos.getCard(1236);
-
-        assertEquals(testCard.getClass(), card.getClass());
-    }
-
-    @Test
-    void getCard_Card1236ShouldReturn11111(){
-        var eos = new EosBankingApplication();
-
-        var card = eos.getCard(1236);
-
-        assertEquals(11111, card.getAccountID());
-    }
-
-    @Test
-    void getCard_Card1234ShouldReturn11112(){
-        //two cards should be able to access the same account
-        var eos = new EosBankingApplication();
-
-        var card = eos.getCard(1234);
-
-        assertEquals(11112, card.getAccountID());
-    }
-
-    @Test
-    void getCard_Card1235ShouldReturn11112(){
-        //two cards should be able to access the same account
-        var eos = new EosBankingApplication();
-
-        var card = eos.getCard(1235);
-
-        assertEquals(11112, card.getAccountID());
-    }
-
-    @Test
     void validatePin_correctPinShouldReturnTrue(){
         var eos = new EosBankingApplication();
-        var card = eos.getCard(1236);
+        var repository = new Repository();
+        var card = repository.getCard(1236);
         String userInput = "333";
         System.setIn(new ByteArrayInputStream(userInput.getBytes()));
 
@@ -210,7 +94,8 @@ class EosBankingApplicationTest {
     @Disabled ("Second input is not working")
     void validatePin_threeWrongPinsShouldReturnFalse(){
         var eos = new EosBankingApplication();
-        var card = eos.getCard(1236);
+        var repository = new Repository();
+        var card = repository.getCard(1236);
         String userInput = "1"+"\n333"+"\n1";
         ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(inputStream);
@@ -220,65 +105,6 @@ class EosBankingApplicationTest {
         assertFalse(actual);
 
     }
-
-    @Test
-    void getCards_ShouldReturnArrayWithElements() {
-        var eos = new EosBankingApplication();
-
-        ArrayList<Card> actual = eos.getCards();
-
-        assertFalse(actual.isEmpty());
-    }
-
-    @Test
-    void getCards_ShouldReturnArrayWithCards() {
-        var eos = new EosBankingApplication();
-        var testCard = new Card(1, 1,1,1,false);
-
-        ArrayList<Card> actual = eos.getCards();
-
-        assertEquals(actual.get(0).getClass(), testCard.getClass());
-    }
-
-    @Test
-    void getAccounts_ShouldReturnArrayWithElements() {
-        var eos = new EosBankingApplication();
-
-        ArrayList<Account> actual = eos.getAccounts();
-
-        assertFalse(actual.isEmpty());
-    }
-
-    @Test
-    void getAccounts_ShouldReturnArrayWithCards() {
-        var eos = new EosBankingApplication();
-        var testAccount = new Account(1, new int[] {1}, new int[] {1}, 1);
-
-        ArrayList<Account> actual = eos.getAccounts();
-
-        assertEquals(actual.get(0).getClass(), testAccount.getClass());
-    }
-
-    @Test
-    void getCustomers_ShouldReturnArrayWithElements() {
-        var eos = new EosBankingApplication();
-
-        ArrayList<Customer> actual = eos.getCustomers();
-
-        assertFalse(actual.isEmpty());
-    }
-
-    @Test
-    void getCustomers_ShouldReturnArrayWithCustomers() {
-        var eos = new EosBankingApplication();
-        var address = new Address("a", "1a", 123, "a");
-        var testCustomer = new Customer("a", "a", 0, address, "1", "a", 1);
-
-        ArrayList<Customer> actual = eos.getCustomers();
-
-        assertEquals(actual.get(0).getClass(), testCustomer.getClass());
-    }
-
 
 
 

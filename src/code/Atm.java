@@ -4,21 +4,20 @@ import java.util.Scanner;
 
 public class Atm {
 
-    public static int validatedCardID;
-
     public static void main(String[] args) {
 
         boolean quit = false;
         EosBankingApplication eos = new EosBankingApplication();
+        Repository repository = new Repository();
 
         System.out.println("B A N K O M A T EOS-Bank Standort: Hamburg");
 
         boolean isValidCardID = eos.checkCardID();
         eos.stopProgram(isValidCardID);
 
-        Card card = eos.getCard(validatedCardID);
-        Customer customer = eos.getCustomer(card.getCustomerID());
-        Account account = eos.getAccount(card.getAccountID());
+        Card card = repository.getCard(Repository.validatedCardID);
+        Customer customer = repository.getCustomer(card.getCustomerID());
+        Account account = repository.getAccount(card.getAccountID());
 
         String name = getGreeting(customer);
         System.out.println("Guten Tag " + name + "!");
@@ -30,15 +29,10 @@ public class Atm {
         }
 
         boolean isValidPin = eos.validatePin(card);
-        if (!isValidPin) {
-            card.blockCard(true);
-            Database database = new Database();
-            database.writeCardData(card);
-        }
         eos.stopProgram(isValidPin);
 
         String menuText = BOLD + "Sie haben Zugriff auf Ihr Konto mit der Nummer " + customer.getId() + RESET +
-                "\nWählen Sie\n" +
+                "\nWaehlen Sie\n" +
                 "1 - Kontostand abfragen\n" +
                 "2 - Einzahlen\n" +
                 "3 - Abheben\n" +
@@ -65,8 +59,8 @@ public class Atm {
                     break;
                 case "4":
                     System.out.println("Auf Wiedersehen!");
-                    Database database = new Database();
-                    database.writeAccountData(account);
+                    JsonIO jsonIO = new JsonIO();
+                    jsonIO.writeAccountData(account);
                     quit = true;
                     break;
                 default:
@@ -94,10 +88,10 @@ public class Atm {
         String balanceStr = String.format("%.2f", account.getBalance());
         String formattedText;
         if (account.getBalance() < 0){
-            formattedText = "\n"+ TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+ BOLD+ RED_BACKGROUND+balanceStr+"€\n"+ RESET;
+            formattedText = "\n"+ TEXT_BACKGROUND+"Ihr Kontostand betraegt: "+ BOLD+ RED_BACKGROUND+balanceStr+" EUR\n"+ RESET;
         }
         else {
-            formattedText = "\n"+ TEXT_BACKGROUND+"Ihr Kontostand beträgt: "+ BOLD+balanceStr+"\u20AC\n"+ RESET;
+            formattedText = "\n"+ TEXT_BACKGROUND+"Ihr Kontostand betraegt: "+ BOLD+balanceStr+" EUR"+ RESET;
         }
 
         return formattedText;

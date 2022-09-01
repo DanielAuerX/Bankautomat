@@ -2,7 +2,7 @@ package tests;
 
 import junit.framework.TestCase;
 
-public class xDatabaseTestJ3 extends TestCase {
+public class xJsonIOTestJ3 extends TestCase {
 /*
     public void testFilepath_ShouldReturnDefaultLocation(){
         assertEquals("R:\\Java\\Bankautomat\\customer_database.csv", Database.filepath);

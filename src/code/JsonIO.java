@@ -8,9 +8,9 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class Database {
+public class JsonIO {
 
-    public String readJSON(String filepath) {
+    public String readJson(String filepath) {
         String jsonString = null;
         try {
             jsonString = new String(Files.readAllBytes(Paths.get(filepath)));
@@ -23,8 +23,8 @@ public class Database {
     public void writeAccountData(Account account){
         String accountFilepath = "R:\\Java\\Bankautomat\\account_data.json";
         Gson gson = new Gson();
-        EosBankingApplication eos = new EosBankingApplication();
-        ArrayList<Account> allAccounts = eos.getAccounts();
+        String content = readJson(accountFilepath);
+        ArrayList<Account> allAccounts = gson.fromJson(content, new TypeToken<ArrayList<Account>>() {}.getType());
         List<Account> oldCard = allAccounts.stream().
                 filter(account1 -> account.getId() == account1.getId()).
                 toList();
@@ -44,8 +44,8 @@ public class Database {
     public void writeCardData(Card card){
         String cardFilepath = "R:\\Java\\Bankautomat\\card_data.json";
         Gson gson = new Gson();
-        EosBankingApplication eos = new EosBankingApplication();
-        ArrayList<Card> allCards = eos.getCards();
+        String content = readJson(cardFilepath);
+        ArrayList<Card> allCards = gson.fromJson(content, new TypeToken<ArrayList<Card>>() {}.getType());
         List<Card> oldCard = allCards.stream().
                 filter(card1 -> card.getId() == card1.getId()).
                 toList();

@@ -1,1 +1,1 @@
-[{"id":11113,"customerID":[9999],"cardID":[1237],"balance":55.0},{"id":11114,"customerID":[3333],"cardID":[1238],"balance":5.0},{"id":11112,"customerID":[1111,2222],"cardID":[1234,12345],"balance":5150.25},{"id":11111,"customerID":[3333],"cardID":[1236],"balance":-9.75}]
+[{"id":11113,"customerID":[9999],"cardID":[1237],"balance":55.0},{"id":11114,"customerID":[3333],"cardID":[1238],"balance":5.0},{"id":11111,"customerID":[3333],"cardID":[1236],"balance":-9.75},{"id":11112,"customerID":[1111,2222],"cardID":[1234,12345],"balance":5200.25}]
