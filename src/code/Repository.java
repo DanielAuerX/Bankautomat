@@ -31,10 +31,10 @@ public class Repository {
         return gson.fromJson(jsonString, new TypeToken<ArrayList<Customer>>() {}.getType());
     }
 
-    public Customer getCustomer(int validCustomerID){
+    public Customer getCustomer(String validCustomerID){
         ArrayList<Customer> allCustomers = getCustomers();
         List<Customer> customers = allCustomers.stream().
-                filter(customer -> customer.getId() == validCustomerID).
+                filter(customer -> customer.getId().equals(validCustomerID)).     // customer.getId().compareTo(validCustomerID) == 0     compareTo retruns -1 (less than), 0 (equals) or 1 (greater than)
                 toList();
         //stream for each lambda
         // hashmap

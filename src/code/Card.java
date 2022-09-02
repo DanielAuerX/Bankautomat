@@ -3,12 +3,12 @@ package code;
 public class Card {
     private int id;
     private int accountID;
-    private int customerID;
+    private String customerID;
     private int pin;
     private boolean isBlocked;
     private int pinTries;
 
-    public Card(int id, int accountID, int customerID, int pin, boolean isBlocked, int pinTries) {
+    public Card(int id, int accountID, String customerID, int pin, boolean isBlocked, int pinTries) {
         this.id = id;
         this.accountID = accountID;
         this.customerID = customerID;
@@ -29,7 +29,7 @@ public class Card {
         return id;
     }
 
-    public int getCustomerID() {
+    public String getCustomerID() {
         return customerID;
     }
 

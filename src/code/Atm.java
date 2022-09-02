@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Atm {
 
-    public static void main(String[] args) {
+    public void runATM() {
 
         boolean quit = false;
         EosBankingApplication eos = new EosBankingApplication();
@@ -71,7 +71,7 @@ public class Atm {
         }
     }
 
-    private static String getGreeting(Customer customer){
+    private String getGreeting(Customer customer){
         //gender: 0 = male; 1 = female; 2 = diverse
         if (customer.getGender() == 0){
             return "Herr "+ customer.getLastName();
@@ -84,7 +84,7 @@ public class Atm {
         }
     }
 
-    private static String showBalanceText(Account account){
+    private String showBalanceText(Account account){
         String balanceStr = String.format("%.2f", account.getBalance());
         String formattedText;
         if (account.getBalance() < 0){
@@ -97,7 +97,7 @@ public class Atm {
         return formattedText;
     }
 
-    private static double askForAmount() {
+    private double askForAmount() {
         Scanner scanner = new Scanner(System.in);
         double amount = 0;
         try {
@@ -118,7 +118,7 @@ public class Atm {
         return amount;
     }
 
-    public static int askForPin() {
+    public int askForPin() {
         int inputPinInt;
         Scanner scanner = new Scanner(System.in);
         try {

@@ -10,7 +10,7 @@ class CardTest {
 
     @Test
     void checkPin_correctPinShouldReturnTrue() {
-        var card = new Card(1, 1, 1, 123, false, 0);
+        var card = new Card(1, 1, "1", 123, false, 0);
 
         boolean isCorrectPin = card.checkPin(123);
 
@@ -19,7 +19,7 @@ class CardTest {
 
     @Test
     void checkPin_falsePinShouldReturnFalse() {
-        var card = new Card(1, 1, 1, 123, false, 0);
+        var card = new Card(1, 1, "1", 123, false, 0);
 
         boolean isCorrectPin = card.checkPin(999);
 
@@ -28,7 +28,7 @@ class CardTest {
 
     @Test
     void blockCard_tooManyTriesShouldSetIsBlockedToTrue() {
-        var card = new Card(1, 1, 1, 1, false, 0);
+        var card = new Card(1, 1, "1", 1, false, 0);
 
         card.blockCard(true);
 
@@ -37,7 +37,7 @@ class CardTest {
 
     @Test
     void blockCard_notTooManyTriesShouldNotChangeIsBlockedFalse() {
-        var card = new Card(1, 1, 1, 1, false, 0);
+        var card = new Card(1, 1, "1", 1, false, 0);
 
         card.blockCard(false);
 
@@ -46,7 +46,7 @@ class CardTest {
 
     @Test
     void blockCard_notTooManyTriesShouldNotChangeIsBlockedTrue() {
-        var card = new Card(1, 1, 1, 1, true, 0);
+        var card = new Card(1, 1, "1", 1, true, 0);
 
         card.blockCard(false);
 

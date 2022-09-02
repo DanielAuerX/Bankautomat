@@ -1,8 +1,8 @@
 package code;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Customer {
     private String firstName;
@@ -11,17 +11,21 @@ public class Customer {
     private Address address;
     private Date birthday;
     private String email;
-    private int id;
+    private String id;
 
-    public Customer(String firstName, String lastName, int gender, Address address, Date birthday, String email, int id) throws ParseException {
+    public Customer(String firstName, String lastName, int gender, Address address, Date birthday, String email, String id) throws Exception {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.address = address;
-        this.email = email;
+        boolean isValidEmail = validateEmail(email);
+        if (isValidEmail){
+            this.email = email;
+        }
+        else {
+            throw new Exception("Invalid email address!");
+        }
         this.id = id;
-        //SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        //this.birthday = format.parse(birthday);
         this.birthday = birthday;
 
     }
@@ -38,7 +42,13 @@ public class Customer {
         return gender;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
+    }
+
+    private boolean validateEmail(String email){
+        Pattern emailPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = emailPattern.matcher(email);
+        return matcher.find();
     }
 }

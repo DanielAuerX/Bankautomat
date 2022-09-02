@@ -2,8 +2,6 @@ package tests;
 
 import code.*;
 import org.junit.jupiter.api.Test;
-
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -12,13 +10,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class RepositoryTest {
 
     @Test
-    void getCustomer_correctIDShouldReturnCustomerClass() throws ParseException {
+    void getCustomer_correctIDShouldReturnCustomerClass() throws Exception {
         var repository = new Repository();
         var address = new Address("1", "1", 1, "1");
         var birthday = new Date(2000, Calendar.FEBRUARY, 12);
-        var testCustomer = new Customer("1", "1", 1, address, birthday, "1", 1);
+        var testCustomer = new Customer("1", "1", 1, address, birthday, "daniel@gmail.com", "1");
 
-        var customer = repository.getCustomer(3333);
+        var customer = repository.getCustomer("921004d3-afcc-4482-93fd-2ed247eea9ca");
 
         assertEquals(testCustomer.getClass(), customer.getClass());
     }
@@ -27,7 +25,7 @@ class RepositoryTest {
     void getCustomer_1111ShouldReturnCustomerWurst(){
         var repository = new Repository();
 
-        var customer = repository.getCustomer(1111);
+        var customer = repository.getCustomer("920004d3-afcc-4482-93fd-2ed247eea9ca");
 
         assertEquals("Wurst", customer.getLastName());
     }
@@ -36,7 +34,7 @@ class RepositoryTest {
     void getCustomer_3333ShouldReturnCustomerEike(){
         var repository = new Repository();
 
-        var customer = repository.getCustomer(3333);
+        var customer = repository.getCustomer("921004d3-afcc-4482-93fd-2ed247eea9ca");
 
         assertEquals("Eike", customer.getFirstName());
     }
@@ -47,7 +45,7 @@ class RepositoryTest {
         var repository = new Repository();
 
         assertThrows(IndexOutOfBoundsException.class, ()->{
-            repository.getCustomer(0000);;});
+            repository.getCustomer("0000");;});
     }
 
     @Test
@@ -92,7 +90,7 @@ class RepositoryTest {
     @Test
     void getCard_ShouldReturnTypeCard (){
         var repository = new Repository();
-        Card testCard = new Card(1, 1, 1, 1, false,0);
+        Card testCard = new Card(1, 1, "1", 1, false,0);
 
         var card = repository.getCard(1236);
 

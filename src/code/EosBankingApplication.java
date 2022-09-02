@@ -1,6 +1,9 @@
 package code;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class EosBankingApplication {
 
@@ -39,9 +42,10 @@ public class EosBankingApplication {
 
     public boolean validatePin(Card card) {
         JsonIO jsonIO = new JsonIO();
+        Atm atm = new Atm();
         boolean isValidPin = false;
         while (card.getPinTries() < 4) {;
-            int inputPinInt = Atm.askForPin();
+            int inputPinInt = atm.askForPin();
             if (card.checkPin(inputPinInt)) {
                 jsonIO.writeCardData(card);
                 return true;
@@ -66,6 +70,35 @@ public class EosBankingApplication {
             }
         }
         return isValidPin;
+    }
+
+    public Customer createCustomer() throws Exception {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Bitte den Vornamen eingeben: ");
+        String firstName = scanner.nextLine();
+        System.out.print("Bitte den Nachnamen eingeben: ");
+        String lastName = scanner.nextLine();
+        System.out.print("Bitte Gender angeben (0 = männlich, 1 = weiblich, 2 = diverse): ");
+        int gender = Integer.parseInt(scanner.nextLine());
+        System.out.print("Bitte die Straße eingeben (Adresse): ");
+        String street = scanner.nextLine();
+        System.out.print("Bitte die Hausnummer eingeben (Adresse): ");
+        String houseNumber = scanner.nextLine();
+        System.out.print("Bitte die Postleitzahl eingeben (Adresse): ");
+        int zip = Integer.parseInt(scanner.nextLine());
+        System.out.print("Bitte den Ort eingeben (Adresse): ");
+        String city = scanner.nextLine();
+        System.out.print("Bitte Geburtsdatum eingeben (dd.mm.yyyy): ");
+        String birthday = scanner.nextLine();
+        System.out.print("Bitte die Email eingeben: ");
+        String email = scanner.nextLine();
+
+        var address = new Address(street, houseNumber, zip, city);
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        Date birthdayDate = format.parse(birthday);
+        final String uuid = UUID.randomUUID().toString();
+
+        return new Customer(firstName, lastName, gender, address, birthdayDate, email, uuid);
     }
 
 }
