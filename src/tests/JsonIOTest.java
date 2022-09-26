@@ -63,11 +63,11 @@ class JsonIOTest {
         var json = new JsonIO();
         var repository = new Repository();
         var card = repository.getCard(1234);
-        card.blockCard(true);
+        //card.checkPin(0000);
 
         json.writeCardData(card);
 
         var cardNew = repository.getCard(1234);
-        assertTrue(cardNew.getIsBlocked());
+        assertTrue(cardNew.isBlocked());
     }
 }

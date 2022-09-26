@@ -1,24 +1,29 @@
 package code;
 
 public class Card {
+    public static final int maxPinTries = 3;
     private int id;
     private int accountID;
     private String customerID;
     private int pin;
-    private boolean isBlocked;
+    private boolean blocked;
     private int pinTries;
 
-    public Card(int id, int accountID, String customerID, int pin, boolean isBlocked, int pinTries) {
+    public Card(int id, int accountID, String customerID, int pin, boolean blocked, int pinTries) {
         this.id = id;
         this.accountID = accountID;
         this.customerID = customerID;
         this.pin = pin;
-        this.isBlocked = isBlocked;
+        this.blocked = blocked;
         this.pinTries = pinTries;
     }
 
-    public boolean getIsBlocked() {
-        return isBlocked;
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public int getRemainingTries(){
+        return maxPinTries-pinTries;
     }
 
     public int getAccountID() {
@@ -38,21 +43,22 @@ public class Card {
     }
 
     public boolean checkPin(int input){
-        boolean isCorrectPin;
         if (input == pin){
-            isCorrectPin = true;
             pinTries = 0;
+            return true;
         }
         else {
-            isCorrectPin =false;
             pinTries ++;
+            if (pinTries >= maxPinTries){
+                blockCard(true);
+            }
+            return false;
         }
-        return isCorrectPin;
     }
 
-    public void blockCard(boolean tooManyTries){
+    private void blockCard(boolean tooManyTries){
         if (tooManyTries){
-            isBlocked = true;
+            blocked = true;
         }
     }
 

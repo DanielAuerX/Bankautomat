@@ -21,7 +21,7 @@ class AtmTest {
         System.setIn(new ByteArrayInputStream(userInput.getBytes()));
         //No input at all???
 
-        atm.runATM();
+        atm.run();
     }
 
     @Test
@@ -36,7 +36,7 @@ class AtmTest {
         PrintStream printStream = new PrintStream(outputStream);
         System.setOut(printStream);
 
-        atm.runATM();
+        atm.run();
 
         String[] lines = outputStream.toString().split(System.lineSeparator());
         String actual = lines[lines.length-2];

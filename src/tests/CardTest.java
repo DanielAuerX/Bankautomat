@@ -1,7 +1,6 @@
 package tests;
 
 import code.Card;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,29 +26,33 @@ class CardTest {
     }
 
     @Test
-    void blockCard_tooManyTriesShouldSetIsBlockedToTrue() {
-        var card = new Card(1, 1, "1", 1, false, 0);
+    void checkPin_ThreePinTriesShouldReturnFalse() {
+        var card = new Card(1, 1, "1", 123, false, 3);
 
-        card.blockCard(true);
+        boolean isCorrectPin = card.checkPin(123);
 
-        assertTrue(card.getIsBlocked());
+        assertFalse(isCorrectPin);
     }
 
     @Test
-    void blockCard_notTooManyTriesShouldNotChangeIsBlockedFalse() {
-        var card = new Card(1, 1, "1", 1, false, 0);
+    void checkPin_ThreePreviousPinTriesShouldBlockCard() {
+        var card = new Card(1, 1, "1", 123, false, 3);
 
-        card.blockCard(false);
+        boolean isBlocked = card.isBlocked();
 
-        assertFalse(card.getIsBlocked());
+        assertTrue(isBlocked);
     }
 
     @Test
-    void blockCard_notTooManyTriesShouldNotChangeIsBlockedTrue() {
-        var card = new Card(1, 1, "1", 1, true, 0);
+    void checkPin_ThreePinTriesShouldBlockCard() {
+        var card = new Card(1, 1, "1", 123, false, 0);
 
-        card.blockCard(false);
+        card.checkPin(1);
+        card.checkPin(1);
+        card.checkPin(1);
 
-        assertTrue(card.getIsBlocked());
+        assertTrue(card.isBlocked());
     }
+
+
 }

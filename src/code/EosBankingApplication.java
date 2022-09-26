@@ -44,28 +44,20 @@ public class EosBankingApplication {
         JsonIO jsonIO = new JsonIO();
         Atm atm = new Atm();
         boolean isValidPin = false;
-        while (card.getPinTries() < 4) {;
+        while (!card.isBlocked()) {
             int inputPinInt = atm.askForPin();
             if (card.checkPin(inputPinInt)) {
                 jsonIO.writeCardData(card);
                 return true;
             } else {
-                switch (card.getPinTries()) {
-                    case 1 -> {
-                        System.out.println("Diese Pin ist inkorrekt. Versuchen Sie es erneut.\nSie haben noch zwei Versuche.");
-                        jsonIO.writeCardData(card);
-                    }
-
-                    case 2 -> {
-                        System.out.println("Diese Pin ist inkorrekt. Versuchen Sie es erneut.\nSie haben noch einen Versuch.");
-                        jsonIO.writeCardData(card);
-                    }
-                    case 3 -> {
-                        System.out.println("Diese Pin ist inkorrekt. Ihr Konto ist vorübergehend gesperrt!\nBitte wenden Sie sich an das Bankpersonal.");
-                        card.blockCard(true);
-                        jsonIO.writeCardData(card);
-                        return false;
-                    }
+                if (card.isBlocked()){
+                    System.out.println("Diese Pin ist inkorrekt. Ihr Konto ist vorübergehend gesperrt!\nBitte wenden Sie sich an das Bankpersonal.");
+                    jsonIO.writeCardData(card);
+                    return false;
+                }
+                else {
+                    System.out.println("Diese Pin ist inkorrekt. Versuchen Sie es erneut.\nAnzahl der verbliebenden Versuche: "+card.getRemainingTries());
+                    jsonIO.writeCardData(card);
                 }
             }
         }

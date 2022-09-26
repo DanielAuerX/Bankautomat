@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Atm {
 
-    public void runATM() {
+    public void run() {
 
         boolean quit = false;
         EosBankingApplication eos = new EosBankingApplication();
@@ -22,7 +22,7 @@ public class Atm {
         String name = getGreeting(customer);
         System.out.println("Guten Tag " + name + "!");
 
-        if (card.getIsBlocked()) {
+        if (card.isBlocked()) {
             System.out.println(BOLD + "Ihre Karte ist gesperrt!\n" + RESET
                     + "Wenden Sie sich bitte umgehend an das Bankpersonal.");
             eos.stopProgram(false);
